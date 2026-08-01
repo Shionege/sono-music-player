@@ -94,13 +94,28 @@
       <!-- SCROLLABLE CONTENT AREAS -->
       <main class="mobile-main">
         
+        <!-- Hidden Native Audio Picker for local import -->
+        <input type="file" id="native-song-picker" accept="audio/*" multiple class="hidden">
+
         <!-- Tab 1: Library Screen -->
         <section id="screen-library" class="app-screen active">
-          <!-- Segmented Filter Bar: [ Songs | Artists | Albums ] -->
-          <div class="segmented-control-bar">
-            <button class="segment-btn active" data-segment="songs">Songs</button>
-            <button class="segment-btn" data-segment="artists">Artists</button>
-            <button class="segment-btn" data-segment="albums">Albums</button>
+          <!-- Segmented Filter Bar & Action Header -->
+          <div class="segmented-control-bar" style="display: flex; align-items: center; gap: 8px;">
+            <button class="segment-btn active" data-segment="songs" style="flex: 1;">Songs (<span id="songs-count">0</span>)</button>
+            <button class="segment-btn" data-segment="artists" style="flex: 1;">Artists</button>
+            <button class="segment-btn" data-segment="albums" style="flex: 1;">Albums</button>
+          </div>
+
+          <div class="library-actions-row" style="display: flex; gap: 8px; margin: 10px 0;">
+            <button id="shuffle-play-btn" class="btn-secondary btn-sm" style="flex: 1; padding: 8px 12px; font-size: 13px; border-radius: 10px;">
+              <i data-lucide="shuffle"></i> Putar Acak
+            </button>
+            <button id="add-song-btn" class="btn-secondary btn-sm" style="flex: 1; padding: 8px 12px; font-size: 13px; border-radius: 10px;">
+              <i data-lucide="plus"></i> Tambah Lagu
+            </button>
+            <button id="manual-upload-btn" class="btn-secondary btn-sm hidden" style="flex: 1; padding: 8px 12px; font-size: 13px; border-radius: 10px;">
+              <i data-lucide="upload"></i> Upload
+            </button>
           </div>
 
           <!-- Search Bar Container (Toggled via search icon) -->
@@ -431,8 +446,21 @@
             </button>
           </div>
 
-          <!-- Core Playback Controls (Rewind, Play/Pause, Fast Forward) -->
-          <div class="playback-controls-row">
+          <!-- Volume Control Slider Row -->
+          <div class="volume-slider-container" style="display: flex; align-items: center; gap: 10px; width: 100%; margin: 8px 0; padding: 0 10px;">
+            <i data-lucide="volume-1" style="width: 16px; height: 16px; color: var(--text-secondary);"></i>
+            <div style="position: relative; flex: 1; display: flex; align-items: center;">
+              <div id="volume-progress-fill" style="position: absolute; left: 0; height: 4px; width: 100%; background: var(--primary-color); border-radius: 4px; pointer-events: none;"></div>
+              <input type="range" id="volume-slider" min="0" max="100" value="100" style="width: 100%; accent-color: var(--primary-color); background: rgba(255,255,255,0.15); height: 4px; border-radius: 4px; cursor: pointer;">
+            </div>
+            <i data-lucide="volume-2" style="width: 16px; height: 16px; color: var(--text-secondary);"></i>
+          </div>
+
+          <!-- Core Playback Controls (Shuffle, Rewind, Play/Pause, Fast Forward, Repeat) -->
+          <div class="playback-controls-row" style="display: flex; align-items: center; justify-content: space-around; width: 100%; margin: 15px 0;">
+            <button id="player-shuffle-btn" class="btn-icon-control util-icon-btn" aria-label="Acak Mode" title="Acak Mode">
+              <i data-lucide="shuffle"></i>
+            </button>
             <button id="player-prev-btn" class="btn-icon-control btn-skip" aria-label="Lagu Sebelumnya">
               <i data-lucide="rewind"></i>
             </button>
@@ -442,12 +470,16 @@
             <button id="player-next-btn" class="btn-icon-control btn-skip" aria-label="Lagu Berikutnya">
               <i data-lucide="fast-forward"></i>
             </button>
+            <button id="player-repeat-btn" class="btn-icon-control util-icon-btn" aria-label="Ulangi Mode" title="Ulangi Mode">
+              <i data-lucide="repeat"></i>
+            </button>
           </div>
 
           <!-- Audio Waveform Timeline Seekbar + Time Badge -->
           <div class="waveform-timeline-container">
-            <div class="waveform-canvas-wrap">
+            <div class="waveform-canvas-wrap" style="position: relative;">
               <canvas id="waveform-canvas" class="waveform-canvas"></canvas>
+              <div id="timeline-progress-fill" style="position: absolute; top:0; left:0; height:100%; width:0%; background:rgba(255,255,255,0.15); pointer-events:none; border-radius:8px;"></div>
               <div id="time-badge" class="time-badge">
                 <span id="time-elapsed">0:00</span> <span class="divider">|</span> <span id="time-remaining">0:00</span>
               </div>

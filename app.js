@@ -1076,6 +1076,56 @@ function setupPlayerListeners() {
   };
   els.playerSleepBtnShortcut.onclick = openSleepTimer;
 
+  // Info Button Shortcut
+  const infoBtn = document.getElementById('player-info-btn');
+  if (infoBtn) {
+    infoBtn.onclick = () => {
+      const current = AudioPlayer.getCurrentSong();
+      if (!current) {
+        alert('Belum ada lagu yang diputar.');
+        return;
+      }
+      showSongInfoModal(current);
+    };
+  }
+
+  // Volume Mute/Max Toggle Shortcut
+  const volBtn = document.getElementById('player-volboost-btn');
+  if (volBtn) {
+    volBtn.onclick = () => {
+      const currentVol = AudioPlayer.audio.volume;
+      if (currentVol > 0) {
+        AudioPlayer.setVolume(0);
+        volBtn.classList.add('muted');
+        volBtn.innerHTML = '<i data-lucide="volume-x"></i>';
+      } else {
+        AudioPlayer.setVolume(1.0);
+        volBtn.classList.remove('muted');
+        volBtn.innerHTML = '<i data-lucide="volume-2"></i>';
+      }
+      lucide.createIcons();
+    };
+  }
+
+  // Queue List Sheet Shortcut
+  const queueBtn = document.getElementById('player-queue-btn');
+  if (queueBtn) {
+    queueBtn.onclick = () => {
+      showQueueSheet();
+    };
+  }
+
+  // Options Menu Shortcut on Now Playing Sheet
+  const optionsBtn = document.getElementById('player-options-btn');
+  if (optionsBtn) {
+    optionsBtn.onclick = () => {
+      const current = AudioPlayer.getCurrentSong();
+      if (current) {
+        showSongOptions(current.id);
+      }
+    };
+  }
+
   // Track player time updates
   AudioPlayer.audio.addEventListener('timeupdate', () => {
     updatePlaybackProgressUI();
@@ -1498,6 +1548,163 @@ function setupEqualizerListeners() {
   });
 }
 
+function showSongInfoModal(song) {
+  if (!song) return;
+  const fileSizeMB = song.file ? (song.file.size / (1024 * 1024)).toFixed(2) : '-';
+  const fileType = song.file ? (song.file.type || 'audio/mpeg') : 'Audio';
+
+  const modal = document.createElement('div');
+  modal.className = 'modal-overlay';
+  modal.innerHTML = `
+    <div class="modal-card glass" style="max-width: 380px;">
+      <div class="modal-header">
+        <h2>Informasi Lagu</h2>
+        <button id="close-info-modal-btn" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body" style="padding: 15px; display: flex; flex-direction: column; gap: 10px; font-size: 14px;">
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border); padding-bottom:8px;">
+          <span style="color:var(--text-secondary);">Judul:</span>
+          <span style="font-weight:600; text-align:right;">${escapeHTML(song.title)}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border); padding-bottom:8px;">
+          <span style="color:var(--text-secondary);">Artis:</span>
+          <span style="font-weight:500; text-align:right;">${escapeHTML(song.artist)}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border); padding-bottom:8px;">
+          <span style="color:var(--text-secondary);">Album:</span>
+          <span style="font-weight:500; text-align:right;">${escapeHTML(song.album || '-')}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border); padding-bottom:8px;">
+          <span style="color:var(--text-secondary);">Durasi:</span>
+          <span style="font-weight:500; text-align:right;">${formatTime(song.duration)}</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; border-bottom:1px solid var(--glass-border); padding-bottom:8px;">
+          <span style="color:var(--text-secondary);">Ukuran Berkas:</span>
+          <span style="font-weight:500; text-align:right;">${fileSizeMB} MB</span>
+        </div>
+        <div style="display:flex; justify-content:space-between; padding-bottom:4px;">
+          <span style="color:var(--text-secondary);">Format Audio:</span>
+          <span style="font-weight:500; text-align:right;">${fileType}</span>
+        </div>
+        <button id="close-info-btn-action" class="btn-primary btn-block" style="margin-top: 10px;">Tutup</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+  const close = () => modal.remove();
+  document.getElementById('close-info-modal-btn').onclick = close;
+  document.getElementById('close-info-btn-action').onclick = close;
+  modal.addEventListener('click', (e) => { if (e.target === modal) close(); });
+}
+
+function showQueueSheet() {
+  const queue = AudioPlayer.queue || [];
+  const currentIdx = AudioPlayer.currentIndex;
+
+  const sheet = document.createElement('div');
+  sheet.className = 'modal-overlay';
+
+  let queueItemsHTML = '';
+  if (queue.length === 0) {
+    queueItemsHTML = '<p class="subtitle text-center" style="padding:20px 0;">Daftar putar kosong.</p>';
+  } else {
+    queue.forEach((song, idx) => {
+      const isCurrent = idx === currentIdx;
+      queueItemsHTML += `
+        <div class="song-row queue-item-row" data-idx="${idx}" style="padding:8px 12px; border-radius:10px; cursor:pointer; background:${isCurrent ? 'rgba(255,45,85,0.15)' : 'transparent'}; border:${isCurrent ? '1px solid var(--primary-color)' : 'none'}; margin-bottom:4px;">
+          <div style="flex:1; overflow:hidden;">
+            <div style="font-weight:${isCurrent ? '700' : '500'}; color:${isCurrent ? 'var(--primary-color)' : '#fff'}; font-size:14px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
+              ${isCurrent ? '▶ ' : ''}${escapeHTML(song.title)}
+            </div>
+            <div style="font-size:12px; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">${escapeHTML(song.artist)}</div>
+          </div>
+          <span style="font-size:12px; color:var(--text-secondary);">${formatTime(song.duration)}</span>
+        </div>
+      `;
+    });
+  }
+
+  sheet.innerHTML = `
+    <div class="modal-card glass" style="position: absolute; bottom: 10px; width: calc(100% - 20px); max-width: 400px; max-height: 450px; display: flex; flex-direction: column; animation: slideUpMini 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+      <div class="modal-header">
+        <h2>Daftar Putar (${queue.length})</h2>
+        <button id="close-queue-sheet-btn" class="modal-close-btn">&times;</button>
+      </div>
+      <div class="modal-body scrollable-modal-body" style="padding: 10px; overflow-y: auto; flex: 1;">
+        <div style="display: flex; flex-direction: column;">
+          ${queueItemsHTML}
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(sheet);
+
+  const close = () => sheet.remove();
+  document.getElementById('close-queue-sheet-btn').onclick = close;
+  sheet.addEventListener('click', (e) => { if (e.target === sheet) close(); });
+
+  sheet.querySelectorAll('.queue-item-row').forEach(row => {
+    row.onclick = () => {
+      const idx = Number(row.getAttribute('data-idx'));
+      AudioPlayer.playIndex(idx);
+      close();
+    };
+  });
+}
+
+function showQuickMenuSheet() {
+  const sheet = document.createElement('div');
+  sheet.className = 'modal-overlay';
+  sheet.innerHTML = `
+    <div class="modal-card glass" style="position: absolute; bottom: 10px; width: calc(100% - 20px); max-width: 400px; animation: slideUpMini 0.3s cubic-bezier(0.16, 1, 0.3, 1);">
+      <div class="modal-body" style="padding: 10px;">
+        <h3 style="font-size: 14px; text-align: center; padding: 10px 0; border-bottom: 1px solid var(--glass-border); margin-bottom: 10px; color: var(--text-secondary);">Menu Akses Cepat</h3>
+        <div style="display: flex; flex-direction: column; gap: 6px;">
+          <button id="qm-wifi" class="settings-item text-left-align-btn">
+            <i data-lucide="wifi"></i> Wi-Fi Transfer
+          </button>
+          <button id="qm-upload" class="settings-item text-left-align-btn">
+            <i data-lucide="upload"></i> Import File dari iPhone (Files)
+          </button>
+          <button id="qm-playlists" class="settings-item text-left-align-btn">
+            <i data-lucide="list-music"></i> Kelola Playlist
+          </button>
+          <button id="qm-settings" class="settings-item text-left-align-btn">
+            <i data-lucide="settings"></i> Pengaturan Aplikasi
+          </button>
+          <button id="qm-cancel" class="btn-secondary btn-block" style="margin-top: 10px; padding: 12px;">Batal</button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(sheet);
+  lucide.createIcons();
+
+  const close = () => sheet.remove();
+  sheet.addEventListener('click', (e) => { if (e.target === sheet) close(); });
+  document.getElementById('qm-cancel').onclick = close;
+
+  document.getElementById('qm-wifi').onclick = () => {
+    close();
+    openWifiModal();
+  };
+  document.getElementById('qm-upload').onclick = () => {
+    close();
+    els.nativeSongPicker.value = '';
+    els.nativeSongPicker.click();
+  };
+  document.getElementById('qm-playlists').onclick = () => {
+    close();
+    const tab = document.querySelector('.tab-item[data-tab="playlists"]');
+    if (tab) tab.click();
+  };
+  document.getElementById('qm-settings').onclick = () => {
+    close();
+    const tab = document.querySelector('.tab-item[data-tab="settings"]');
+    if (tab) tab.click();
+  };
+}
+
 function setupHeaderAndSegmentListeners() {
   const searchBtn = document.getElementById('header-search-trigger');
   const searchWrap = document.getElementById('search-bar-wrap');
@@ -1508,6 +1715,14 @@ function setupHeaderAndSegmentListeners() {
         const input = document.getElementById('library-search');
         if (input) input.focus();
       }
+    };
+  }
+
+  // Header quick menu trigger
+  const menuBtn = document.getElementById('header-menu-trigger');
+  if (menuBtn) {
+    menuBtn.onclick = () => {
+      showQuickMenuSheet();
     };
   }
 

@@ -376,6 +376,37 @@ function renderSongsList(songs = filteredSongs) {
   });
 }
 
+function exportSongFile(song) {
+  if (!song || !song.file) {
+    alert('Berkas lagu tidak ditemukan.');
+    return;
+  }
+
+  try {
+    const blob = song.file;
+    const cleanTitle = (song.title || 'Lagu').replace(/[/\\?%*:|"<>]/g, '');
+    const cleanArtist = (song.artist || '').replace(/[/\\?%*:|"<>]/g, '');
+    const ext = song.file.type && song.file.type.includes('wav') ? '.wav' : (song.file.type && song.file.type.includes('flac') ? '.flac' : '.mp3');
+    const fileName = cleanArtist ? `${cleanTitle} - ${cleanArtist}${ext}` : `${cleanTitle}${ext}`;
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = fileName;
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+
+    setTimeout(() => {
+      a.remove();
+      URL.revokeObjectURL(url);
+    }, 1500);
+  } catch (err) {
+    console.error('Export error:', err);
+    alert('Gagal mengekspor lagu: ' + err.message);
+  }
+}
+
 function showSongOptions(songId) {
   const song = allSongs.find(s => s.id === Number(songId));
   if (!song) return;
@@ -393,6 +424,9 @@ function showSongOptions(songId) {
           </button>
           <button id="opt-edit" class="settings-item text-left-align-btn">
             <i data-lucide="edit-3"></i> Edit Metadata (Judul/Cover)
+          </button>
+          <button id="opt-export" class="settings-item text-left-align-btn">
+            <i data-lucide="download"></i> Simpan ke Files (Export MP3)
           </button>
           <button id="opt-delete" class="settings-item text-danger text-left-align-btn">
             <i data-lucide="trash-2"></i> Hapus dari Perangkat
@@ -413,6 +447,11 @@ function showSongOptions(songId) {
   });
 
   document.getElementById('opt-cancel').onclick = closeSheet;
+
+  document.getElementById('opt-export').onclick = () => {
+    closeSheet();
+    exportSongFile(song);
+  };
 
   document.getElementById('opt-fav').onclick = async () => {
     const isFav = await window.Storage.toggleFavorite(songId);

@@ -20,6 +20,19 @@
   --safe-area-top: env(safe-area-inset-top, 0px);
 }
 
+
+/* Universal Lucide SVG & Icon Sizing Rule */
+i[data-lucide], svg[data-lucide], svg.lucide, .lucide {
+  display: inline-block !important;
+  vertical-align: middle;
+  stroke: currentColor;
+  fill: none;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  flex-shrink: 0;
+}
+
 /* Reset & Basics */
 * {
   box-sizing: border-box;
@@ -329,7 +342,7 @@ button {
   color: var(--text-secondary);
 }
 
-.empty-icon {
+.empty-icon, svg.empty-icon {
   width: 72px;
   height: 72px;
   border-radius: 20px;
@@ -938,7 +951,7 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
-.tab-item i {
+.tab-item i, .tab-item svg {
   width: 20px;
   height: 20px;
   stroke-width: 2px;
@@ -1291,7 +1304,7 @@ input:checked + .slider:before {
   padding: 0 4px;
 }
 
-.vol-icon {
+.vol-icon, svg.vol-icon {
   width: 18px;
   height: 18px;
   color: var(--text-secondary);
@@ -1516,7 +1529,7 @@ input:checked + .slider:before {
   transition: color 0.2s ease, transform 0.1s ease;
 }
 
-.btn-icon-control i {
+.btn-icon-control i, .btn-icon-control svg {
   width: 22px;
   height: 22px;
 }
@@ -1530,7 +1543,7 @@ input:checked + .slider:before {
   color: var(--primary-color);
 }
 
-.btn-skip i {
+.btn-skip i, .btn-skip svg {
   width: 32px;
   height: 32px;
   stroke-width: 2px;
@@ -1550,7 +1563,7 @@ input:checked + .slider:before {
   transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
-.btn-play-pause i {
+.btn-play-pause i, .btn-play-pause svg {
   width: 32px;
   height: 32px;
   fill: #000000;
@@ -1577,7 +1590,7 @@ input:checked + .slider:before {
   color: var(--text-tertiary);
 }
 
-.vol-icon {
+.vol-icon, svg.vol-icon {
   width: 18px;
   height: 18px;
 }
@@ -1605,7 +1618,7 @@ input:checked + .slider:before {
   color: #ffffff;
 }
 
-.util-btn i {
+.util-btn i, .util-btn svg {
   width: 20px;
   height: 20px;
 }
@@ -2408,7 +2421,7 @@ input:checked + .slider:before {
   cursor: pointer;
 }
 
-.header-circle-btn i {
+.header-circle-btn i, .header-circle-btn svg {
   width: 18px;
   height: 18px;
 }

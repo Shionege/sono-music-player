@@ -18,14 +18,29 @@
     }
   </style>
 
-  <!-- Zero-Dependency Inline Tab Navigation Handler -->
+  <!-- Zero-Dependency Inline Tab Navigation & Sheet Handlers -->
   <script>
+    window.dismissPlayerSheet = function() {
+      var sheet = document.getElementById('now-playing-sheet');
+      if (sheet) {
+        sheet.classList.remove('active');
+        sheet.style.transform = '';
+      }
+    };
+
     window.switchTab = function(tabName) {
       if (tabName === 'player') {
         var sheet = document.getElementById('now-playing-sheet');
-        if (sheet) sheet.classList.add('active');
+        if (sheet) {
+          sheet.classList.add('active');
+          sheet.style.transform = '';
+        }
         return;
       }
+      
+      // Auto-dismiss player sheet when switching tabs
+      window.dismissPlayerSheet();
+
       var tabs = document.querySelectorAll('.tab-item');
       for (var i = 0; i < tabs.length; i++) {
         tabs[i].classList.remove('active');
@@ -33,6 +48,7 @@
           tabs[i].classList.add('active');
         }
       }
+
       var screens = document.querySelectorAll('.app-screen');
       for (var j = 0; j < screens.length; j++) {
         screens[j].classList.remove('active');
@@ -40,6 +56,7 @@
           screens[j].classList.add('active');
         }
       }
+
       var titleEl = document.getElementById('screen-title');
       if (titleEl) {
         var titles = { library: 'Songs', import: 'Wi-Fi Transfer', playlists: 'Playlists', settings: 'Settings' };
@@ -405,8 +422,8 @@
       <!-- NOW PLAYING FULL SHEET (Apple Music iOS 17 Style)    -->
       <!-- ==================================================== -->
       <div id="now-playing-sheet" class="now-playing-overlay">
-        <!-- Drag Handle Header -->
-        <div class="drag-handle-wrap" id="close-now-playing">
+        <!-- Drag Handle Header (Tap or Drag Down to Exit) -->
+        <div class="drag-handle-wrap" id="close-now-playing" onclick="window.dismissPlayerSheet()">
           <div class="drag-handle"></div>
         </div>
 

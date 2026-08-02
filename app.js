@@ -13,7 +13,7 @@ let allSongs = [];
 let filteredSongs = [];
 let currentPlaylist = null;
 let parsedLyrics = [];
-const defaultCoverSVG = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff2d55"/><stop offset="100%" stop-color="#5856d6"/></linearGradient></defs><rect width="120" height="120" rx="24" fill="url(#g)"/><path d="M 76 32 V 73 A 13 13 0 1 1 63 60 A 13 13 0 0 1 76 73 V 44 L 48 51 V 81 A 13 13 0 1 1 35 68 A 13 13 0 0 1 48 81 V 39 Z" fill="#ffffff"/></svg>'); // Array of { time: seconds, text: text } for synced lyrics
+const defaultCoverSVG = 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMzAwIiB2aWV3Qm94PSIwIDAgMzAwIDMwMCI+PGRlZnM+PGxpbmVhckdyYWRpZW50IGlkPSJiZyIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMTAwJSI+PHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2ZmMmQ1NSIvPjxzdG9wIG9mZnNldD0iNTAlIiBzdG9wLWNvbG9yPSIjNzkyOGNhIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjNGMxZDk1Ii8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9Im5vdGUiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZmZmZmZmIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjZTBlMGUwIi8+PC9saW5lYXJHcmFkaWVudD48ZmlsdGVyIGlkPSJzaGFkb3ciIHg9Ii0yMCUiIHk9Ii0yMCUiIHdpZHRoPSIxNDAlIiBoZWlnaHQ9IjE0MCUiPjxmZURyb3BTaGFkb3cgZHg9IjAiIGR5PSI2IiBzdGREZXZpYXRpb249IjgiIGZsb29kLWNvbG9yPSIjMDAwMDAwIiBmbG9vZC1vcGFjaXR5PSIwLjQiLz48L2ZpbHRlcj48L2RlZnM+PHJlY3Qgd2lkdGg9IjMwMCIgaGVpZ2h0PSIzMDAiIHJ4PSIzNiIgZmlsbD0idXJsKCNiZykiLz48Y2lyY2xlIGN4PSIxNTAiIGN5PSIxNTAiIHI9IjEwMCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDgpIiBzdHJva2Utd2lkdGg9IjE2Ii8+PGNpcmNsZSBjeD0iMTUwIiBjeT0iMTUwIiByPSI2NSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJyZ2JhKDI1NSwyNTUsMjU1LDAuMDYpIiBzdHJva2Utd2lkdGg9IjE2Ii8+PHBhdGggZD0iTSAxODUgODUgViAxNzUgQSAzMCAzMCAwIDEgMSAxNTUgMTQ1IEEgMzAgMzAgMCAwIDEgMTg1IDE3NSBWIDExMCBMIDEyMCAxMjUgViAxOTUgQSAzMCAzMCAwIDEgMSA5MCAxNjUgQSAzMCAzMCAwIDAgMSAxMjAgMTk1IFYgMTAwIFoiIGZpbGw9InVybCgjbm90ZSkiIGZpbHRlcj0idXJsKCNzaGFkb3cpIi8+PC9zdmc+';utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff2d55"/><stop offset="100%" stop-color="#5856d6"/></linearGradient></defs><rect width="120" height="120" rx="24" fill="url(#g)"/><path d="M 76 32 V 73 A 13 13 0 1 1 63 60 A 13 13 0 0 1 76 73 V 44 L 48 51 V 81 A 13 13 0 1 1 35 68 A 13 13 0 0 1 48 81 V 39 Z" fill="#ffffff"/></svg>'); // Array of { time: seconds, text: text } for synced lyrics
 let currentLyricsLineIndex = -1;
 let isVisualizerEnabled = true;
 let isDesktop = false;
@@ -220,7 +220,7 @@ async function initMobileMode() {
     els.timeElapsed.textContent = '0:00';
     els.timeRemaining.textContent = formatTime(firstSong.duration);
 
-    let coverSrc = 'placeholder.png';
+    let coverSrc = defaultCoverSVG;
     if (firstSong.cover) {
       coverSrc = URL.createObjectURL(firstSong.cover);
       els.miniPlayerCover.addEventListener('DOMNodeRemoved', () => URL.revokeObjectURL(coverSrc));

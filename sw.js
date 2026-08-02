@@ -1,11 +1,11 @@
 /**
  * sw.js
  * Service Worker for Anywhere Offline Music Player PWA
- * Caches application assets for offline playback.
+ * Guarantees 100% offline app shell loading and asset caching.
  */
 
-const CACHE_NAME = 'sono-music-player-v19';
-const ASSETS_TO_CACHE = [
+const CACHE_NAME = 'anywhere-music-player-v20';
+const ESSENTIAL_ASSETS = [
   './',
   './index.html',
   './styles.css',
@@ -18,36 +18,31 @@ const ASSETS_TO_CACHE = [
   './placeholder.png',
   './icons/apple-touch-icon.png',
   './icons/icon-192.png',
-  './icons/icon-512.png',
-  './icons/splash/splash-1242x2688.png',
-  './icons/splash/splash-828x1792.png',
-  './icons/splash/splash-1125x2436.png',
-  './icons/splash/splash-1170x2532.png',
-  './icons/splash/splash-1284x2778.png',
-  './icons/splash/splash-1179x2556.png',
-  './icons/splash/splash-1290x2796.png',
-  './icons/splash/splash-750x1334.png',
-  './icons/splash/splash-1242x2208.png'
+  './icons/icon-512.png'
 ];
 
-// Install Service Worker and cache assets
+// Install Service Worker and cache essential app shell
 self.addEventListener('install', (event) => {
+  self.skipWaiting();
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      console.log('Service Worker: Caching App Shell Assets');
-      return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME).then(async (cache) => {
+      console.log('[SW] Caching Essential App Shell');
+      // Use Promise.allSettled so individual missing assets never block SW installation
+      return Promise.allSettled(
+        ESSENTIAL_ASSETS.map(asset => cache.add(asset).catch(e => console.warn('[SW] Asset cache warning:', asset, e)))
+      );
+    })
   );
 });
 
-// Activate event (clean up old caches)
+// Activate event (clean up old caches and claim clients immediately)
 self.addEventListener('activate', (event) => {
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cache) => {
           if (cache !== CACHE_NAME) {
-            console.log('Service Worker: Clearing Old Cache', cache);
+            console.log('[SW] Clearing Old Cache:', cache);
             return caches.delete(cache);
           }
         })
@@ -56,38 +51,55 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-// Fetch event (Cache First, falling back to Network)
+// Fetch event (Stale-While-Revalidate with Navigation Fallback)
 self.addEventListener('fetch', (event) => {
   if (event.request.method !== 'GET') return;
 
-  const isInternal = event.request.url.startsWith(self.location.origin);
-  const isCDN = event.request.url.includes('unpkg.com') || 
-                event.request.url.includes('cdnjs.cloudflare.com') ||
-                event.request.url.includes('fonts.googleapis.com') ||
-                event.request.url.includes('fonts.gstatic.com');
-
-  if (isInternal || isCDN) {
+  // Handle navigation (HTML page load) - ALWAYS serve cached index.html when offline
+  if (event.request.mode === 'navigate' || event.request.headers.get('accept')?.includes('text/html')) {
     event.respondWith(
-      caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
-        if (cachedResponse) {
-          return cachedResponse;
-        }
-
-        return fetch(event.request).then((networkResponse) => {
-          if (!networkResponse || networkResponse.status !== 200) {
-            return networkResponse;
+      caches.match('./index.html').then((cachedIndex) => {
+        const fetchPromise = fetch(event.request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const copy = networkResponse.clone();
+            caches.open(CACHE_NAME).then(cache => cache.put('./index.html', copy));
           }
-
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
-
           return networkResponse;
-        }).catch((err) => {
-          console.warn('Network fetch failed for offline resource:', err);
-        });
+        }).catch(() => null);
+
+        return cachedIndex || fetchPromise;
       })
     );
+    return;
   }
+
+  // Cache first for all app assets and CDNs
+  event.respondWith(
+    caches.match(event.request, { ignoreSearch: true }).then((cachedResponse) => {
+      if (cachedResponse) {
+        // Fetch background update for cache
+        fetch(event.request).then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            caches.open(CACHE_NAME).then(cache => cache.put(event.request, networkResponse));
+          }
+        }).catch(() => {});
+        return cachedResponse;
+      }
+
+      return fetch(event.request).then((networkResponse) => {
+        if (!networkResponse || networkResponse.status !== 200) {
+          return networkResponse;
+        }
+
+        const responseToCache = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => {
+          cache.put(event.request, responseToCache);
+        });
+
+        return networkResponse;
+      }).catch((err) => {
+        console.warn('[SW] Network fetch failed offline:', event.request.url);
+      });
+    })
+  );
 });

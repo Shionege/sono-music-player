@@ -28,19 +28,6 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
   
-  <!-- Apple Touch Startup Images (Default Pure Black Data-URI Fallback to Prevent iOS Standalone White Window) -->
-  <link rel="apple-touch-startup-image" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1179x2556.png">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-
   <!-- Google Fonts & Lucide Icons -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -54,14 +41,6 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body style="background-color: #000000; margin: 0; padding: 0;">
-
-  <!-- Premium Startup Splash Screen Overlay (Minimalist Anywhere - Instant Inline SVG Icon + Text) -->
-  <div id="splash-screen" style="position: fixed; top: 0; left: 0; right: 0; bottom: 0; width: 100vw; height: 100vh; height: 100dvh; background-color: #000000 !important; background: #000000 !important; z-index: 99999; display: flex; flex-direction: row; justify-content: center; align-items: center; gap: 14px; transition: opacity 0.25s ease; opacity: 1; pointer-events: none;">
-    <div style="width: 50px; height: 50px; background: linear-gradient(135deg, #ff2d55 0%, #3b226e 100%); border-radius: 14px; display: flex; justify-content: center; align-items: center; box-shadow: 0 4px 15px rgba(255, 45, 85, 0.4); flex-shrink: 0;">
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="#ffffff" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-left: 3px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-    </div>
-    <h1 style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', Roboto, sans-serif; font-size: 28px; font-weight: 600; color: #ffffff !important; letter-spacing: -0.5px; margin: 0;">Anywhere</h1>
-  </div>
 
   <!-- Background Dynamic Mesh Gradient -->
   <div class="dynamic-background">
@@ -267,7 +246,7 @@
               <div class="settings-item-left">
                 <div class="app-logo-small">S</div>
                 <div>
-                  <h4>Sono Music Player PWA</h4>
+                  <h4>Anywhere Music Player PWA</h4>
                   <p class="subtitle">Versi 1.0 (Offline-First Web App)</p>
                 </div>
               </div>
@@ -283,7 +262,7 @@
                 <i data-lucide="wifi" class="import-wifi-icon wifi-pulse" style="width:28px;height:28px;color:var(--primary-color);"></i>
                 <h2 style="margin:0;font-size:20px;font-weight:700;">Wi-Fi Transfer Anywhere</h2>
               </div>
-              <p class="subtitle" style="text-align:center;margin-bottom:14px;">Buka <strong>https://sono-player-local.loca.lt</strong> di laptop Anda, lalu masukkan 6-digit kode di bawah ini:</p>
+              <p class="subtitle" style="text-align:center;margin-bottom:14px;">Buka link website ini (<strong>https://shionege.github.io/sono-music-player/</strong>) di browser laptop (PC) Anda, lalu masukkan 6-digit kode di bawah ini:</p>
               
               <div class="pairing-code-display-page">
                 <span id="import-pairing-code">------</span>
@@ -512,7 +491,7 @@
             <div class="instructions-card">
               <h3>Cara Mengirim Lagu ke iPhone:</h3>
               <ol>
-                <li>Buka aplikasi <strong>Sono</strong> di iPhone Anda.</li>
+                <li>Buka aplikasi <strong>Anywhere</strong> di iPhone Anda.</li>
                 <li>Pergi ke menu <strong>Settings</strong> -> <strong>Wi-Fi Transfer</strong>.</li>
                 <li>Masukkan 6 digit kode yang tampil di layar iPhone Anda di bawah ini:</li>
               </ol>

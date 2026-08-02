@@ -151,15 +151,6 @@ const els = {
 /* ==================================================== */
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Hide splash screen smoothly after DOM ready
-  const splash = document.getElementById('splash-screen');
-  if (splash) {
-    setTimeout(() => {
-      splash.style.opacity = '0';
-      setTimeout(() => splash.remove(), 250);
-    }, 100);
-  }
-
   // Mode detection: check explicit user preference in localStorage
   const savedViewMode = localStorage.getItem('app-view-mode');
   const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);

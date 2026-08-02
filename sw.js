@@ -4,7 +4,7 @@
  * Guarantees 100% offline app shell loading and asset caching.
  */
 
-const CACHE_NAME = 'anywhere-music-player-v25';
+const CACHE_NAME = 'anywhere-music-player-v26';
 const ESSENTIAL_ASSETS = [
   './',
   './index.html',
@@ -16,6 +16,9 @@ const ESSENTIAL_ASSETS = [
   './app.js',
   './manifest.json',
   './placeholder.png',
+  './vendor/lucide.min.js',
+  './vendor/jsmediatags.min.js',
+  './vendor/peerjs.min.js',
   './icons/apple-touch-icon.png',
   './icons/icon-192.png',
   './icons/icon-512.png',

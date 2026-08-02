@@ -1,3 +1,13 @@
+function createIconsSafe() {
+  if (typeof lucide !== 'undefined' && lucide && typeof lucide.createIcons === 'function') {
+    try {
+      lucide.createIcons();
+    } catch (e) {
+      console.warn('Lucide createIcons warning:', e);
+    }
+  }
+}
+
 /**
  * app.js
  * Main application logic, UI bindings, and WebRTC transfer glue.
@@ -170,7 +180,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
   
   // Re-initialize Lucide Icons
-  lucide.createIcons();
+  createIconsSafe();
 
   // Register Service Worker for offline capability
   if ('serviceWorker' in navigator) {
@@ -316,7 +326,7 @@ function renderSongsList(songs = filteredSongs) {
         <p class="subtitle">Gunakan Wi-Fi Transfer atau tombol "+" untuk menambahkan lagu baru.</p>
       </div>
     `;
-    lucide.createIcons();
+    createIconsSafe();
     return;
   }
 
@@ -363,7 +373,7 @@ function renderSongsList(songs = filteredSongs) {
     els.songsList.appendChild(row);
   });
 
-  lucide.createIcons();
+  createIconsSafe();
   
   // Setup row option trigger handlers
   document.querySelectorAll('.song-options-trigger').forEach(btn => {
@@ -436,7 +446,7 @@ function showSongOptions(songId) {
     </div>
   `;
   document.body.appendChild(actionSheet);
-  lucide.createIcons();
+  createIconsSafe();
 
   // Handlers
   const closeSheet = () => actionSheet.remove();
@@ -517,7 +527,7 @@ async function showAddToPlaylistDialog(songId) {
     </div>
   `;
   document.body.appendChild(dialog);
-  lucide.createIcons();
+  createIconsSafe();
 
   const closeDlg = () => dialog.remove();
   document.getElementById('close-pl-dialog-btn').onclick = closeDlg;
@@ -592,7 +602,7 @@ function setupLibraryListeners() {
 
     els.manualUploadBtn.disabled = false;
     els.manualUploadBtn.innerHTML = `<i data-lucide="upload"></i> Upload File`;
-    lucide.createIcons();
+    createIconsSafe();
 
     await loadSongsFromDB();
     updateStorageUsageUI();
@@ -663,7 +673,7 @@ function renderPlaylists(playlists) {
     els.playlistsList.appendChild(card);
   });
   
-  lucide.createIcons();
+  createIconsSafe();
 }
 
 async function openPlaylistDetails(playlist) {
@@ -697,7 +707,7 @@ async function openPlaylistDetails(playlist) {
         <p class="subtitle">Tambahkan lagu dengan mengetuk tombol "Tambah Lagu" di atas.</p>
       </div>
     `;
-    lucide.createIcons();
+    createIconsSafe();
   } else {
     // Render list
     plSongs.forEach((song, index) => {
@@ -735,7 +745,7 @@ async function openPlaylistDetails(playlist) {
       els.playlistSongsList.appendChild(row);
     });
 
-    lucide.createIcons();
+    createIconsSafe();
 
     // Setup options menu inside playlist
     document.querySelectorAll('.pl-song-options-trigger').forEach(btn => {
@@ -774,7 +784,7 @@ function showPlaylistSongOptions(songId) {
     </div>
   `;
   document.body.appendChild(actionSheet);
-  lucide.createIcons();
+  createIconsSafe();
 
   const closeSheet = () => actionSheet.remove();
   
@@ -1147,7 +1157,7 @@ function setupPlayerListeners() {
         volBtn.classList.remove('muted');
         volBtn.innerHTML = '<i data-lucide="volume-2"></i>';
       }
-      lucide.createIcons();
+      createIconsSafe();
     };
   }
 
@@ -1230,7 +1240,7 @@ function setPlaybackStateUI(isPlaying) {
   
   els.playerPlayBtn.innerHTML = isPlaying ? pauseIcon : playIcon;
   els.miniPlayBtn.innerHTML = isPlaying ? pauseIcon : playIcon;
-  lucide.createIcons();
+  createIconsSafe();
 
   // Scale album art (iOS effect)
   if (isPlaying) {
@@ -1328,7 +1338,7 @@ function updateRepeatBtnUI(mode) {
     els.playerRepeatBtn.innerHTML = '<i data-lucide="repeat-1"></i>';
   }
   
-  lucide.createIcons();
+  createIconsSafe();
 }
 
 function updateFavoriteButtonUI(isFav) {
@@ -1725,7 +1735,7 @@ function showQuickMenuSheet() {
     </div>
   `;
   document.body.appendChild(sheet);
-  lucide.createIcons();
+  createIconsSafe();
 
   const close = () => sheet.remove();
   sheet.addEventListener('click', (e) => { if (e.target === sheet) close(); });
@@ -2009,7 +2019,7 @@ function initImportPageReceiver() {
           songArtEl.innerHTML = `<img src="${coverBase64}" style="width:100%;height:100%;object-fit:cover;border-radius:6px;" alt="cover">`;
         } else {
           songArtEl.innerHTML = `<i data-lucide="music" style="width:24px;height:24px;color:var(--primary-color);"></i>`;
-          lucide.createIcons();
+          createIconsSafe();
         }
       }
 
@@ -2084,7 +2094,7 @@ function setupDesktopListeners() {
         els.desktopPairingState.classList.remove('active');
         els.desktopPairingState.classList.add('hidden');
         els.desktopTransferState.classList.remove('hidden');
-        lucide.createIcons();
+        createIconsSafe();
       },
       // Transfer progress feedback (acknowledged from iPhone)
       (percentage) => {

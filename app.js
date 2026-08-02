@@ -1209,7 +1209,7 @@ function setupPlayerListeners() {
     els.timelineProgressFill.style.width = '0%';
     els.miniProgressLine.style.width = '0%';
     els.timeElapsed.textContent = '0:00';
-    els.timeRemaining.textContent = formatTime(song.duration);
+    els.timeRemaining.textContent = '-' + formatTime(song.duration || 0);
 
     // Initial check for shuffle/repeat UI
     updateShuffleRepeatUI();
@@ -1243,7 +1243,7 @@ function updatePlaybackProgressUI() {
   const remainingInt = Math.max(0, durationInt - elapsedInt);
 
   els.timeElapsed.textContent = formatTime(elapsedInt);
-  els.timeRemaining.textContent = formatTime(durationInt);
+  els.timeRemaining.textContent = '-' + formatTime(remainingInt);
 
   if (duration > 0) {
     const pct = (elapsed / duration) * 100;

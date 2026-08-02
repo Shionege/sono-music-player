@@ -944,13 +944,13 @@ input:checked + .slider:before {
 }
 
 .tab-item.active {
-  color: #ffffff;
-  background: rgba(140, 50, 220, 0.45);
-  box-shadow: 0 4px 15px rgba(140, 50, 220, 0.3);
+  color: var(--primary-color, #ff2d55) !important;
+  background: rgba(255, 45, 85, 0.15) !important;
+  box-shadow: 0 4px 15px rgba(255, 45, 85, 0.25) !important;
 }
 
 /* ==================================================== */
-/* NOW PLAYING FULL SHEET                               */
+/* NOW PLAYING FULL SHEET (Apple Music iOS 17 Style)    */
 /* ==================================================== */
 
 .now-playing-overlay {
@@ -962,15 +962,15 @@ input:checked + .slider:before {
   width: 100vw;
   height: 100vh;
   height: 100dvh;
-  background: rgba(5, 5, 5, 0.96);
-  backdrop-filter: blur(35px) saturate(180%);
-  -webkit-backdrop-filter: blur(35px) saturate(180%);
+  background: rgba(8, 8, 10, 0.96);
+  backdrop-filter: blur(40px) saturate(190%);
+  -webkit-backdrop-filter: blur(40px) saturate(190%);
   z-index: 200;
   display: flex;
   flex-direction: column;
-  padding: calc(10px + env(safe-area-inset-top, 0px)) 24px calc(28px + env(safe-area-inset-bottom, 0px)) 24px;
+  padding: calc(8px + env(safe-area-inset-top, 0px)) 24px calc(24px + env(safe-area-inset-bottom, 0px)) 24px;
   transform: translateY(100%);
-  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.5s;
+  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.45s;
   pointer-events: none;
   visibility: hidden;
 }
@@ -983,7 +983,7 @@ input:checked + .slider:before {
 
 .drag-handle-wrap {
   width: 100%;
-  height: 50px;
+  height: 36px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -993,11 +993,10 @@ input:checked + .slider:before {
 }
 
 .drag-handle {
-  width: 48px;
-  height: 6px;
-  background-color: rgba(255, 255, 255, 0.4);
-  border-radius: 4px;
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+  width: 42px;
+  height: 5px;
+  background-color: rgba(255, 255, 255, 0.35);
+  border-radius: 3px;
   transition: background-color 0.2s, transform 0.2s;
 }
 .drag-handle-wrap:active .drag-handle {
@@ -1005,13 +1004,13 @@ input:checked + .slider:before {
   transform: scaleX(1.15);
 }
 
-/* Player Top Header & Spec Badges (Gambar 1) */
+/* Player Top Header & Spec Badges */
 .player-top-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   width: 100%;
-  padding: 4px 0 10px 0;
+  padding: 0 0 8px 0;
 }
 
 .audio-specs-badges {
@@ -1020,14 +1019,15 @@ input:checked + .slider:before {
 }
 
 .spec-badge {
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
   padding: 2px 7px;
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 10px;
+  font-weight: 700;
   color: #ffffff;
-  background: rgba(0, 0, 0, 0.3);
-  letter-spacing: 0.3px;
+  background: rgba(0, 0, 0, 0.4);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .top-options-btn {
@@ -1038,20 +1038,68 @@ input:checked + .slider:before {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 4px;
+  padding: 6px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+.top-options-btn:active {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.now-playing-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  flex: 1;
+  justify-content: space-between;
+}
+
+/* Hero Album Artwork Container (Apple Music iOS 17 Style) */
+.album-art-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 6px 0 14px 0;
+  flex-shrink: 0;
+}
+
+.large-album-art {
+  width: 270px;
+  height: 270px;
+  max-width: calc(100vw - 80px);
+  max-height: calc(100vw - 80px);
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65), 0 0 40px var(--primary-color-glow);
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  position: relative;
+  overflow: hidden;
+}
+
+.large-album-art.paused {
+  transform: scale(0.86);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
 }
 
 /* Centered Title & Artist */
 .player-meta-centered {
   text-align: center;
   width: 100%;
-  margin: 10px 0 6px 0;
+  margin: 4px 0;
+  padding: 0 10px;
 }
 
 .player-meta-centered h2 {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: #ffffff;
+  letter-spacing: -0.4px;
   margin: 0 0 4px 0;
   white-space: nowrap;
   overflow: hidden;
@@ -1060,25 +1108,28 @@ input:checked + .slider:before {
 
 .player-meta-centered p {
   font-size: 15px;
-  color: rgba(255, 255, 255, 0.7);
+  color: var(--text-secondary);
   margin: 0;
   font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Equalizer Spectrum Visualizer Card (Rainbow Gradient) */
+/* Equalizer Spectrum Visualizer Card */
 .eq-visualizer-card {
   width: 100%;
-  height: 62px;
-  background: rgba(20, 10, 35, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 14px;
+  height: 48px;
+  background: rgba(20, 10, 35, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
   overflow: hidden;
   position: relative;
-  margin: 8px 0;
+  margin: 4px 0;
   display: flex;
   align-items: flex-end;
   justify-content: center;
-  padding: 4px;
+  padding: 2px;
 }
 
 .eq-visualizer-card canvas {
@@ -1086,98 +1137,233 @@ input:checked + .slider:before {
   height: 100%;
 }
 
-/* 7-Icon Utility Toolbar */
-.util-toolbar-row {
+/* Timeline Slider Component */
+.waveform-timeline-container {
+  width: 100%;
+  margin: 8px 0 4px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.waveform-canvas-wrap {
+  position: relative;
+  width: 100%;
+  height: 6px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  overflow: visible;
+}
+
+.timeline-progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 0%;
+  background: var(--primary-color, #ff2d55);
+  border-radius: 3px;
+  pointer-events: none;
+  box-shadow: 0 0 10px var(--primary-color-glow);
+}
+
+.waveform-slider {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 22px;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
+  margin: 0;
+}
+
+.time-row-labels {
   display: flex;
   justify-content: space-between;
-  align-items: center;
   width: 100%;
-  margin: 8px 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary, rgba(255,255,255,0.6));
+  font-variant-numeric: tabular-nums;
   padding: 0 2px;
 }
 
-.util-icon-btn {
-  background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.85);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px;
-  border-radius: 50%;
-  transition: color 0.2s, background 0.2s;
-}
-
-.util-icon-btn i {
-  width: 20px;
-  height: 20px;
-}
-
-.util-icon-btn.active {
-  color: var(--primary-color);
-}
-
-/* Playback Controls Row (Gambar 1 Rewind / Play-Pause / Fast-Forward) */
+/* Core Playback Controls (Shuffle, Prev, Play/Pause, Next, Repeat) */
 .playback-controls-row {
   display: flex;
-  justify-content: center;
   align-items: center;
-  gap: 40px;
+  justify-content: space-between;
   width: 100%;
-  margin: 12px 0;
+  margin: 10px 0;
+  padding: 0 4px;
+}
+
+.btn-icon-control {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-icon-control:active, .btn-icon-control.active {
+  color: var(--primary-color, #ff2d55);
+  background: rgba(255, 45, 85, 0.15);
+  transform: scale(1.1);
 }
 
 .btn-skip {
   background: transparent;
   border: none;
   color: #ffffff;
-  cursor: pointer;
+  width: 44px;
+  height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
   transition: transform 0.15s ease;
 }
 
-.btn-skip i {
-  width: 32px;
-  height: 32px;
-  fill: #ffffff;
+.btn-skip:active {
+  transform: scale(0.85);
 }
 
-.btn-skip:active {
-  transform: scale(0.88);
+.btn-skip i, .btn-skip svg {
+  width: 28px;
+  height: 28px;
+  fill: #ffffff;
+  stroke: #ffffff;
 }
 
 .btn-play-pause {
-  width: 64px;
-  height: 64px;
-  border-radius: 18px;
-  background: #ffffff;
-  color: #000000;
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 64px !important;
+  height: 64px !important;
+  min-width: 64px !important;
+  min-height: 64px !important;
+  max-width: 64px !important;
+  max-height: 64px !important;
+  border-radius: 50% !important;
+  aspect-ratio: 1 / 1 !important;
+  background: #ffffff !important;
+  color: #000000 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: none !important;
+  box-shadow: 0 6px 22px rgba(255, 255, 255, 0.35) !important;
   cursor: pointer;
-  box-shadow: 0 8px 25px rgba(255, 255, 255, 0.3);
-  transition: transform 0.15s ease, box-shadow 0.2s ease;
-}
-
-.btn-play-pause i {
-  width: 28px;
-  height: 28px;
-  fill: #000000;
+  transition: transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  flex-shrink: 0 !important;
 }
 
 .btn-play-pause:active {
-  transform: scale(0.92);
+  transform: scale(0.92) !important;
 }
 
-/* Audio Waveform Timeline Seekbar + Time Badge (Gambar 1) */
-.waveform-timeline-container {
+.btn-play-pause i, .btn-play-pause svg {
+  width: 28px !important;
+  height: 28px !important;
+  fill: #000000 !important;
+  stroke: #000000 !important;
+  stroke-width: 0 !important;
+  margin-left: 2px !important;
+}
+
+/* Volume Control Slider Component */
+.volume-slider-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
   width: 100%;
-  margin-top: 10px;
+  margin: 6px 0 10px 0;
+  padding: 0 4px;
+}
+
+.vol-icon {
+  width: 18px;
+  height: 18px;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+.vol-track-wrap {
+  position: relative;
+  flex: 1;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+}
+
+.vol-fill {
+  position: absolute;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  background: var(--text-main, #ffffff);
+  border-radius: 3px;
+  pointer-events: none;
+}
+
+.vol-slider {
+  position: absolute;
+  top: -8px;
+  left: 0;
+  width: 100%;
+  height: 21px;
+  opacity: 0;
+  cursor: pointer;
+  z-index: 5;
+  margin: 0;
+}
+
+/* Bottom Utility Toolbar */
+.util-toolbar-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  width: 100%;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.util-icon-btn {
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.6);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.util-icon-btn:active, .util-icon-btn.active {
+  color: var(--primary-color, #ff2d55);
+  background: rgba(255, 45, 85, 0.15);
+  transform: scale(1.1);
+}
+
+.util-icon-btn i, .util-icon-btn svg {
+  width: 20px;
+  height: 20px;
+}
 }
 
 .waveform-canvas-wrap {

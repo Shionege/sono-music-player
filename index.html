@@ -378,13 +378,16 @@
       <!-- ==================================================== -->
       <!-- FULL NOW PLAYING SLIDE-UP SHEET (Gambar 1 Style)     -->
       <!-- ==================================================== -->
+      <!-- ==================================================== -->
+      <!-- NOW PLAYING FULL SHEET (Apple Music iOS 17 Style)    -->
+      <!-- ==================================================== -->
       <div id="now-playing-sheet" class="now-playing-overlay">
-        <!-- Close drag handle bar -->
+        <!-- Drag Handle Header -->
         <div class="drag-handle-wrap" id="close-now-playing">
           <div class="drag-handle"></div>
         </div>
 
-        <!-- Audio Specs Header Row -->
+        <!-- Audio Specs & Top Actions Bar -->
         <div class="player-top-header">
           <div class="audio-specs-badges">
             <span class="spec-badge">MP3</span>
@@ -397,59 +400,37 @@
         </div>
 
         <div class="now-playing-content">
-          <!-- Album Art area -->
+          <!-- 1. Hero Album Artwork Container -->
           <div class="album-art-container">
             <div id="player-album-art" class="large-album-art paused" style="background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('placeholder.png');"></div>
           </div>
 
-          <!-- Song Meta (Title, Artist) Centered -->
+          <!-- 2. Song Meta (Title, Artist) -->
           <div class="player-meta-centered">
             <h2 id="player-title" class="scroll-title">Judul Lagu</h2>
             <p id="player-artist">Artis Lagu</p>
           </div>
 
-          <!-- Equalizer Spectrum Visualizer Card (Rainbow Gradient) -->
+          <!-- 3. Equalizer Spectrum Visualizer Canvas -->
           <div class="eq-visualizer-card">
             <canvas id="visualizer-canvas" class="visualizer-canvas"></canvas>
           </div>
 
-          <!-- 7-Icon Utility Toolbar -->
-          <div class="util-toolbar-row">
-            <button id="player-favorite-btn" class="util-icon-btn" title="Favorit">
-              <i data-lucide="heart"></i>
-            </button>
-            <button id="player-info-btn" class="util-icon-btn" title="Info Lagu">
-              <i data-lucide="info"></i>
-            </button>
-            <button id="player-eq-btn" class="util-icon-btn" title="Equalizer">
-              <i data-lucide="sliders"></i>
-            </button>
-            <button id="player-sleep-btn-shortcut" class="util-icon-btn" title="Timer Tidur">
-              <i data-lucide="clock"></i>
-            </button>
-            <button id="player-volboost-btn" class="util-icon-btn" title="Volume">
-              <i data-lucide="volume-2"></i>
-            </button>
-            <button id="player-speed-btn" class="util-icon-btn" title="Kecepatan">
-              <i data-lucide="gauge"></i>
-            </button>
-            <button id="player-queue-btn" class="util-icon-btn" title="Daftar Putar">
-              <i data-lucide="list-music"></i>
-            </button>
-          </div>
-
-          <!-- Volume Control Slider Row -->
-          <div class="volume-slider-container" style="display: flex; align-items: center; gap: 10px; width: 100%; margin: 8px 0; padding: 0 10px;">
-            <i data-lucide="volume-1" style="width: 16px; height: 16px; color: var(--text-secondary);"></i>
-            <div style="position: relative; flex: 1; display: flex; align-items: center;">
-              <div id="volume-progress-fill" style="position: absolute; left: 0; height: 4px; width: 100%; background: var(--primary-color); border-radius: 4px; pointer-events: none;"></div>
-              <input type="range" id="volume-slider" min="0" max="100" value="100" style="width: 100%; accent-color: var(--primary-color); background: rgba(255,255,255,0.15); height: 4px; border-radius: 4px; cursor: pointer;">
+          <!-- 4. Timeline Slider + Elapsed / Remaining Time Labels -->
+          <div class="waveform-timeline-container">
+            <div class="waveform-canvas-wrap">
+              <canvas id="waveform-canvas" class="waveform-canvas"></canvas>
+              <div id="timeline-progress-fill" class="timeline-progress-fill"></div>
+              <input type="range" id="timeline-slider" min="0" max="100" value="0" class="waveform-slider">
             </div>
-            <i data-lucide="volume-2" style="width: 16px; height: 16px; color: var(--text-secondary);"></i>
+            <div class="time-row-labels">
+              <span id="time-elapsed">0:00</span>
+              <span id="time-remaining">0:00</span>
+            </div>
           </div>
 
-          <!-- Core Playback Controls (Shuffle, Rewind, Play/Pause, Fast Forward, Repeat) -->
-          <div class="playback-controls-row" style="display: flex; align-items: center; justify-content: space-around; width: 100%; margin: 15px 0;">
+          <!-- 5. Core Playback Controls (Shuffle, Rewind, Play/Pause, Fast Forward, Repeat) -->
+          <div class="playback-controls-row">
             <button id="player-shuffle-btn" class="btn-icon-control util-icon-btn" aria-label="Acak Mode" title="Acak Mode">
               <i data-lucide="shuffle"></i>
             </button>
@@ -467,16 +448,39 @@
             </button>
           </div>
 
-          <!-- Audio Waveform Timeline Seekbar + Time Badge -->
-          <div class="waveform-timeline-container">
-            <div class="waveform-canvas-wrap" style="position: relative;">
-              <canvas id="waveform-canvas" class="waveform-canvas"></canvas>
-              <div id="timeline-progress-fill" style="position: absolute; top:0; left:0; height:100%; width:0%; background:rgba(255,255,255,0.15); pointer-events:none; border-radius:8px;"></div>
-              <div id="time-badge" class="time-badge">
-                <span id="time-elapsed">0:00</span> <span class="divider">|</span> <span id="time-remaining">0:00</span>
-              </div>
-              <input type="range" id="timeline-slider" min="0" max="100" value="0" class="waveform-slider">
+          <!-- 6. Volume Control Slider Row -->
+          <div class="volume-slider-container">
+            <i data-lucide="volume-1" class="vol-icon"></i>
+            <div class="vol-track-wrap">
+              <div id="volume-progress-fill" class="vol-fill"></div>
+              <input type="range" id="volume-slider" min="0" max="100" value="100" class="vol-slider">
             </div>
+            <i data-lucide="volume-2" class="vol-icon"></i>
+          </div>
+
+          <!-- 7. Bottom Utility Toolbar -->
+          <div class="util-toolbar-row">
+            <button id="player-favorite-btn" class="util-icon-btn" title="Favorit">
+              <i data-lucide="heart"></i>
+            </button>
+            <button id="player-info-btn" class="util-icon-btn" title="Info Lagu">
+              <i data-lucide="info"></i>
+            </button>
+            <button id="player-eq-btn" class="util-icon-btn" title="Equalizer">
+              <i data-lucide="sliders"></i>
+            </button>
+            <button id="player-sleep-btn-shortcut" class="util-icon-btn" title="Timer Tidur">
+              <i data-lucide="clock"></i>
+            </button>
+            <button id="player-volboost-btn" class="util-icon-btn" title="Mute/Unmute">
+              <i data-lucide="volume-2"></i>
+            </button>
+            <button id="player-speed-btn" class="util-icon-btn" title="Kecepatan">
+              <i data-lucide="gauge"></i>
+            </button>
+            <button id="player-queue-btn" class="util-icon-btn" title="Daftar Putar">
+              <i data-lucide="list-music"></i>
+            </button>
           </div>
         </div>
       </div>

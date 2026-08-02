@@ -1392,7 +1392,6 @@ input:checked + .slider:before {
   width: 20px;
   height: 20px;
 }
-}
 
 .waveform-canvas-wrap {
   position: relative;

@@ -161,7 +161,7 @@ const els = {
 /* INITIALIZATION                                       */
 /* ==================================================== */
 
-document.addEventListener('DOMContentLoaded', async () => {
+async function initApp() {
   // Mode detection: check explicit user preference in localStorage
   const savedViewMode = localStorage.getItem('app-view-mode');
   const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
@@ -189,7 +189,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       .then(reg => console.log('PWA Service Worker registered:', reg.scope))
       .catch(err => console.error('PWA Service Worker registration failed:', err));
   }
-});
+}
+
+if (document.readyState === 'complete' || document.readyState === 'interactive') {
+  initApp();
+} else {
+  document.addEventListener('DOMContentLoaded', initApp);
+}
 
 /* ==================================================== */
 /* MOBILE MODE LOGIC                                    */

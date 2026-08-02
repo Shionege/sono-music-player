@@ -12,7 +12,8 @@ import TransferManager from './transfer.js';
 let allSongs = [];
 let filteredSongs = [];
 let currentPlaylist = null;
-let parsedLyrics = []; // Array of { time: seconds, text: text } for synced lyrics
+let parsedLyrics = [];
+const defaultCoverSVG = 'data:image/svg+xml;utf8,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><defs><linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#ff2d55"/><stop offset="100%" stop-color="#5856d6"/></linearGradient></defs><rect width="120" height="120" rx="24" fill="url(#g)"/><path d="M 76 32 V 73 A 13 13 0 1 1 63 60 A 13 13 0 0 1 76 73 V 44 L 48 51 V 81 A 13 13 0 1 1 35 68 A 13 13 0 0 1 48 81 V 39 Z" fill="#ffffff"/></svg>'); // Array of { time: seconds, text: text } for synced lyrics
 let currentLyricsLineIndex = -1;
 let isVisualizerEnabled = true;
 let isDesktop = false;
@@ -150,9 +151,26 @@ const els = {
 /* ==================================================== */
 
 document.addEventListener('DOMContentLoaded', async () => {
-  // Laptop / PC detection: non-mobile user agents or width >= 768px always enter Desktop Mode
+  // Hide splash screen smoothly after DOM ready
+  const splash = document.getElementById('splash-screen');
+  if (splash) {
+    setTimeout(() => {
+      splash.style.opacity = '0';
+      setTimeout(() => splash.remove(), 250);
+    }, 100);
+  }
+
+  // Mode detection: check explicit user preference in localStorage
+  const savedViewMode = localStorage.getItem('app-view-mode');
   const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  isDesktop = !isMobileUA || window.innerWidth >= 768;
+  
+  if (savedViewMode === 'mobile') {
+    isDesktop = false;
+  } else if (savedViewMode === 'desktop') {
+    isDesktop = true;
+  } else {
+    isDesktop = !isMobileUA && window.innerWidth >= 768;
+  }
   
   if (isDesktop) {
     initDesktopMode();
@@ -168,16 +186,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     navigator.serviceWorker.register('./sw.js')
       .then(reg => console.log('PWA Service Worker registered:', reg.scope))
       .catch(err => console.error('PWA Service Worker registration failed:', err));
-  }
-});
-
-// Watch resize to switch view mode if developer shrinks window on PC
-window.addEventListener('resize', () => {
-  const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  const shouldBeDesktop = !isMobileUA || window.innerWidth >= 768;
-  if (shouldBeDesktop !== isDesktop) {
-    isDesktop = shouldBeDesktop;
-    location.reload();
   }
 });
 
@@ -327,7 +335,7 @@ function renderSongsList(songs = filteredSongs) {
     row.setAttribute('data-id', song.id);
 
     // Cover Art
-    let coverSrc = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ff2d55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>';
+    let coverSrc = defaultCoverSVG;
     if (song.cover) {
       const url = URL.createObjectURL(song.cover);
       coverSrc = url;
@@ -705,7 +713,7 @@ async function openPlaylistDetails(playlist) {
       const row = document.createElement('div');
       row.className = 'song-row';
       
-      let coverSrc = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ff2d55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>';
+      let coverSrc = defaultCoverSVG;
       if (song.cover) {
         const url = URL.createObjectURL(song.cover);
         coverSrc = url;
@@ -967,7 +975,7 @@ async function openAddSongsToPlaylistModal() {
       item.style.padding = '12px';
       item.style.marginBottom = '6px';
       
-      let coverSrc = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ff2d55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>';
+      let coverSrc = defaultCoverSVG;
       if (song.cover) {
         coverSrc = URL.createObjectURL(song.cover);
         item.addEventListener('DOMNodeRemoved', () => URL.revokeObjectURL(coverSrc));
@@ -1001,6 +1009,44 @@ function setupPlayerListeners() {
   els.closeNowPlaying.onclick = () => {
     els.nowPlayingSheet.classList.remove('active');
   };
+
+  // Touch Drag-to-Dismiss Handler for Now Playing Sheet
+  const sheet = els.nowPlayingSheet;
+  let startY = 0;
+  let currentY = 0;
+  let isDragging = false;
+
+  if (sheet) {
+    sheet.addEventListener('touchstart', (e) => {
+      const touchY = e.touches[0].clientY;
+      if (e.target.closest('.drag-handle-wrap') || e.target.closest('.player-top-header') || touchY < 220) {
+        isDragging = true;
+        startY = touchY;
+        sheet.style.transition = 'none';
+      }
+    }, { passive: true });
+
+    sheet.addEventListener('touchmove', (e) => {
+      if (!isDragging) return;
+      currentY = e.touches[0].clientY - startY;
+      if (currentY > 0) {
+        sheet.style.transform = `translateY(${currentY}px)`;
+      }
+    }, { passive: true });
+
+    sheet.addEventListener('touchend', () => {
+      if (!isDragging) return;
+      isDragging = false;
+      sheet.style.transition = 'transform 0.35s cubic-bezier(0.19, 1, 0.22, 1)';
+      if (currentY > 70) {
+        sheet.classList.remove('active');
+        sheet.style.transform = '';
+      } else {
+        sheet.style.transform = 'translateY(0)';
+      }
+      currentY = 0;
+    }, { passive: true });
+  }
 
   // Playback control bindings
   const togglePlay = () => AudioPlayer.togglePlay();
@@ -1156,7 +1202,7 @@ function setupPlayerListeners() {
     updateFavoriteButtonUI(song.favorite);
 
     // Cover Art
-    let coverSrc = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ff2d55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>';
+    let coverSrc = defaultCoverSVG;
     if (song.cover) {
       coverSrc = URL.createObjectURL(song.cover);
     }
@@ -1672,6 +1718,9 @@ function showQuickMenuSheet() {
           <button id="qm-settings" class="settings-item text-left-align-btn">
             <i data-lucide="settings"></i> Pengaturan Aplikasi
           </button>
+          <button id="qm-desktop" class="settings-item text-left-align-btn" style="color: var(--primary-color);">
+            <i data-lucide="laptop"></i> Mode Kirim File dari PC (Laptop)
+          </button>
           <button id="qm-cancel" class="btn-secondary btn-block" style="margin-top: 10px; padding: 12px;">Batal</button>
         </div>
       </div>
@@ -1702,6 +1751,11 @@ function showQuickMenuSheet() {
     close();
     const tab = document.querySelector('.tab-item[data-tab="settings"]');
     if (tab) tab.click();
+  };
+  document.getElementById('qm-desktop').onclick = () => {
+    close();
+    localStorage.setItem('app-view-mode', 'desktop');
+    location.reload();
   };
 }
 
@@ -1797,7 +1851,7 @@ async function openEditMetadataModal(songId) {
   els.editAlbum.value = song.album;
 
   // Cover image Preview
-  let coverSrc = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="%23ff2d55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg>';
+  let coverSrc = defaultCoverSVG;
   if (song.cover) {
     coverSrc = URL.createObjectURL(song.cover);
   }
@@ -2003,6 +2057,14 @@ function initDesktopMode() {
 }
 
 function setupDesktopListeners() {
+  const switchMobileBtn = document.getElementById('switch-to-mobile-btn');
+  if (switchMobileBtn) {
+    switchMobileBtn.onclick = () => {
+      localStorage.setItem('app-view-mode', 'mobile');
+      location.reload();
+    };
+  }
+
   // Form Connection Click
   els.connectToIphoneBtn.onclick = () => {
     const rawCode = els.pCodeInput.value.replace(/\s+/g, '');

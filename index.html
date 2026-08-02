@@ -18,6 +18,36 @@
     }
   </style>
 
+  <!-- Zero-Dependency Inline Tab Navigation Handler -->
+  <script>
+    window.switchTab = function(tabName) {
+      if (tabName === 'player') {
+        var sheet = document.getElementById('now-playing-sheet');
+        if (sheet) sheet.classList.add('active');
+        return;
+      }
+      var tabs = document.querySelectorAll('.tab-item');
+      for (var i = 0; i < tabs.length; i++) {
+        tabs[i].classList.remove('active');
+        if (tabs[i].getAttribute('data-tab') === tabName) {
+          tabs[i].classList.add('active');
+        }
+      }
+      var screens = document.querySelectorAll('.app-screen');
+      for (var j = 0; j < screens.length; j++) {
+        screens[j].classList.remove('active');
+        if (screens[j].id === 'screen-' + tabName) {
+          screens[j].classList.add('active');
+        }
+      }
+      var titleEl = document.getElementById('screen-title');
+      if (titleEl) {
+        var titles = { library: 'Songs', import: 'Wi-Fi Transfer', playlists: 'Playlists', settings: 'Settings' };
+        if (titles[tabName]) titleEl.textContent = titles[tabName];
+      }
+    };
+  </script>
+
   <!-- Primary Stylesheet (Loaded first to eliminate render blocking white flash) -->
   <link rel="stylesheet" href="styles.css">
 
@@ -68,10 +98,10 @@
         <h1 id="screen-title" class="header-title-bold">Songs</h1>
         <div class="header-right-actions">
           <button class="header-circle-btn" id="header-search-trigger" aria-label="Cari">
-            <i data-lucide="search"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           </button>
           <button class="header-circle-btn" id="header-menu-trigger" aria-label="Menu">
-            <i data-lucide="more-horizontal"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
           </button>
         </div>
       </header>
@@ -346,24 +376,24 @@
 
       <!-- FLOATING PILL BOTTOM TAB NAVIGATION BAR (Gambar 1 Style) -->
       <nav class="bottom-tab-bar">
-        <button class="tab-item" id="tab-import-btn" data-tab="import">
-          <i data-lucide="download"></i>
+        <button class="tab-item" id="tab-import-btn" data-tab="import" onclick="switchTab('import')">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           <span>Import</span>
         </button>
-        <button class="tab-item active" data-tab="library">
-          <i data-lucide="music"></i>
+        <button class="tab-item active" data-tab="library" onclick="switchTab('library')">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
           <span>Library</span>
         </button>
-        <button class="tab-item" id="tab-player-btn" data-tab="player">
-          <i data-lucide="play-circle"></i>
+        <button class="tab-item" id="tab-player-btn" data-tab="player" onclick="switchTab('player')">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
           <span>Player</span>
         </button>
-        <button class="tab-item" data-tab="playlists">
-          <i data-lucide="list"></i>
+        <button class="tab-item" data-tab="playlists" onclick="switchTab('playlists')">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
           <span>Playlists</span>
         </button>
-        <button class="tab-item" data-tab="settings">
-          <i data-lucide="settings"></i>
+        <button class="tab-item" data-tab="settings" onclick="switchTab('settings')">
+          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
           <span>Settings</span>
         </button>
       </nav>

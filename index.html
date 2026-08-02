@@ -1,20 +1,21 @@
 <!DOCTYPE html>
-<html lang="id" style="background-color: #000000 !important; background: #000000 !important; color-scheme: dark !important;">
+<html lang="id" style="background-color: #050507 !important; background: #050507 !important; color-scheme: dark !important;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Anywhere - Offline Music Player</title>
+  <title>Anywhere - Premium Music Player</title>
   
-  <!-- Critical Inline Style to 100% Eliminate White Screen Flash on iOS Standalone PWA -->
+  <!-- Critical Inline Style for Zero-Flash iOS Standalone PWA -->
   <style>
     html, body, #app, :root {
-      background-color: #000000 !important;
-      background: #000000 !important;
+      background-color: #050507 !important;
+      background: #050507 !important;
       color: #ffffff !important;
       margin: 0 !important;
       padding: 0 !important;
       -webkit-tap-highlight-color: transparent;
       color-scheme: dark !important;
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", sans-serif;
     }
   </style>
 
@@ -41,7 +42,7 @@
       // Auto-dismiss player sheet when switching tabs
       window.dismissPlayerSheet();
 
-      var tabs = document.querySelectorAll('.tab-item');
+      var tabs = document.querySelectorAll('.dock-item');
       for (var i = 0; i < tabs.length; i++) {
         tabs[i].classList.remove('active');
         if (tabs[i].getAttribute('data-tab') === tabName) {
@@ -57,117 +58,78 @@
         }
       }
 
-      var titleEl = document.getElementById('screen-title');
+      var titleEl = document.getElementById('header-main-title');
       if (titleEl) {
-        var titles = { library: 'Songs', import: 'Wi-Fi Transfer', playlists: 'Playlists', settings: 'Settings' };
+        var titles = { library: 'Energetic music', import: 'Wi-Fi Transfer', playlists: 'Playlists', settings: 'Settings' };
         if (titles[tabName]) titleEl.textContent = titles[tabName];
       }
     };
   </script>
 
-  <!-- Primary Stylesheet (Loaded first to eliminate render blocking white flash) -->
+  <!-- Primary Stylesheet -->
   <link rel="stylesheet" href="styles.css">
 
   <!-- PWA Meta Tags -->
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="theme-color" content="#000000">
-  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-  <meta name="theme-color" content="#000000" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#050507">
   <meta name="color-scheme" content="dark">
   <meta name="apple-mobile-web-app-title" content="Anywhere">
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
-  
-  <!-- Apple Touch Startup Images for iOS Standalone PWA (Solid Black Fallback to Fix White Screen Issue) -->
-  <link rel="apple-touch-startup-image" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGNgYGAAAAAEAAH27f74AAAAAElFTkSuQmCC">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1170x2532.png" media="(device-width: 390px) and (device-height: 844px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1242x2688.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-828x1792.png" media="(device-width: 414px) and (device-height: 896px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-  <link rel="apple-touch-startup-image" href="icons/splash/splash-1179x2556.png">
 </head>
-<body style="background-color: #000000; margin: 0; padding: 0;">
+<body style="background-color: #050507; margin: 0; padding: 0;">
 
-  <!-- Background Dynamic Mesh Gradient -->
-  <div class="dynamic-background">
-    <div class="gradient-ball ball1"></div>
-    <div class="gradient-ball ball2"></div>
-    <div class="gradient-ball ball3"></div>
+  <!-- Ambient Dynamic Radial Background Blur -->
+  <div class="ambient-blur-container">
+    <div class="ambient-glow glow1"></div>
+    <div class="ambient-glow glow2"></div>
   </div>
 
   <div id="app">
-    <!-- ==================================================== -->
-    <!-- MOBILE VIEW (iPhone Music Player UI)                 -->
-    <!-- ==================================================== -->
     <div id="mobile-view" class="mobile-layout">
       
-      <!-- TOP HEADER BAR (Apple Music Header) -->
+      <!-- TOP HEADER BAR (Mockup Style: Chevron Left, Title & Subtitle, Right Queue Icon) -->
       <header class="mobile-header">
-        <h1 id="screen-title" class="header-title-bold">Songs</h1>
-        <div class="header-right-actions">
-          <button class="header-circle-btn" id="header-search-trigger" aria-label="Cari">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          </button>
-          <button class="header-circle-btn" id="header-menu-trigger" aria-label="Menu">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:18px;height:18px;"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
-          </button>
+        <button class="header-icon-btn" id="header-left-action" onclick="window.dismissPlayerSheet()" aria-label="Dismiss">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="header-title-group">
+          <h1 id="header-main-title" class="header-title-text">Energetic music</h1>
+          <span id="header-sub-title" class="header-subtitle-text">Playlist</span>
         </div>
+        <button class="header-icon-btn" id="header-right-action" onclick="window.switchTab('playlists')" aria-label="Queue">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+        </button>
       </header>
 
-      <!-- SCROLLABLE CONTENT AREAS -->
+      <!-- SCROLLABLE CONTENT AREA -->
       <main class="mobile-main">
         
-        <!-- Hidden Native Audio Picker for local import -->
+        <!-- Hidden Native File Picker -->
         <input type="file" id="native-song-picker" accept="audio/*" multiple class="hidden">
 
-        <!-- Tab 1: Library Screen -->
+        <!-- Screen 1: Songs Playlist View (Exact Match to Right Screen Mockup) -->
         <section id="screen-library" class="app-screen active">
           <!-- Library Search Input (hidden by default) -->
           <div id="library-search-wrap" class="search-bar-wrap hidden">
             <input type="text" id="library-search-input" placeholder="Cari lagu, artis, atau album..." class="search-input">
           </div>
 
-          <!-- Segmented Control Filters Bar -->
-          <div class="segmented-control-bar">
-            <button class="segmented-btn active" data-filter="songs">Songs ( <span id="songs-count">0</span> )</button>
-            <button class="segmented-btn" data-filter="artists">Artists</button>
-            <button class="segmented-btn" data-filter="albums">Albums</button>
-          </div>
-
-          <!-- Quick Action Buttons Row -->
-          <div class="quick-action-row">
-            <button id="shuffle-play-btn" class="quick-action-btn primary-action">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
-              <span>Putar Acak</span>
-            </button>
-            <button id="add-song-btn" class="quick-action-btn secondary-action">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-              <span>Tambah Lagu</span>
-            </button>
-          </div>
-
-          <!-- Main Songs List Container -->
-          <div id="songs-list" class="songs-list">
-            <!-- Dynamic song items rendered by app.js -->
+          <!-- Songs List (Rendered dynamically) -->
+          <div id="songs-list" class="mockup-songs-list">
+            <!-- Dynamic song items loaded here -->
           </div>
         </section>
 
-        <!-- Tab 2: Wi-Fi Transfer Import Screen -->
+        <!-- Screen 2: Wi-Fi Transfer Import Screen -->
         <section id="screen-import" class="app-screen">
-          <div class="import-card glass">
-            <div class="import-icon-wrap">
-              <svg viewBox="0 0 24 24" fill="none" stroke="#ff2d55" stroke-width="2" style="width:36px;height:36px;"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+          <div class="mockup-card glass">
+            <div class="import-icon-circle">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#007aff" stroke-width="2" style="width:32px;height:32px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
             </div>
             <h2>Wi-Fi Transfer Anywhere</h2>
-            <p class="import-desc">
-              Buka link website ini di browser laptop (PC) Anda, lalu masukkan 6-digit kode di bawah ini:
-            </p>
+            <p class="import-desc">Buka website ini di laptop Anda lalu masukkan 6-digit PIN di bawah ini:</p>
             <div class="code-box-wrap">
               <div class="url-display">https://shionege.github.io/sono-music-player/</div>
               <div id="transfer-code" class="pin-code">------</div>
@@ -175,38 +137,14 @@
                 <span class="status-dot orange"></span> Menunggu sambungan dari laptop...
               </div>
             </div>
-
-            <!-- Alternative local picker button inside import tab -->
-            <div class="import-divider"><span>Atau pilih file lokal di HP Anda:</span></div>
             <button id="manual-upload-btn" class="upload-btn">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
               <span>Pilih File Musik dari HP</span>
             </button>
-
-            <!-- Receiver progress bar -->
-            <div id="import-progress-card" class="import-progress-card glass hidden">
-              <div class="progress-info">
-                <div class="receiver-meta">
-                  <span id="import-file-name" class="file-name">Mengirim file...</span>
-                  <span id="import-file-size" class="file-size">0 MB</span>
-                </div>
-                <span id="import-receiver-pct" class="receiver-pct">0%</span>
-              </div>
-              <div class="progress-bar-bg" style="margin-top:12px;height:6px;border-radius:3px;">
-                <div id="import-progress-fill" class="progress-bar-fill" style="width:0%"></div>
-              </div>
-            </div>
-
-            <div id="import-done-container" class="import-done-container glass hidden" style="margin-top:14px;padding:16px;border-radius:16px;">
-              <h3 style="margin:0 0 10px 0;font-size:14px;color:#30d158;display:flex;align-items:center;gap:6px;">
-                Lagu Berhasil Disimpan:
-              </h3>
-              <div id="import-done-items" class="import-done-items" style="max-height:220px;overflow-y:auto;"></div>
-            </div>
           </div>
         </section>
 
-        <!-- Tab 3: Playlists Screen -->
+        <!-- Screen 3: Playlists View -->
         <section id="screen-playlists" class="app-screen">
           <div class="playlist-header">
             <button id="create-playlist-btn" class="quick-action-btn primary-action" style="width: 100%;">
@@ -214,9 +152,7 @@
               <span>Buat Playlist Baru</span>
             </button>
           </div>
-          
           <div id="playlists-grid" class="playlists-grid">
-            <!-- Favorite songs card default -->
             <div class="playlist-card glass" id="fav-playlist-card">
               <div class="playlist-cover favorite-gradient">
                 <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:32px;height:32px;color:#fff;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
@@ -227,19 +163,9 @@
               </div>
             </div>
           </div>
-
-          <!-- Selected Playlist Details View (Hidden by default) -->
-          <div id="playlist-details-view" class="playlist-details-container hidden">
-            <div class="playlist-details-header">
-              <button id="back-to-playlists-btn" class="icon-back-btn">&larr; Kembali</button>
-              <h2 id="playlist-details-title">Judul Playlist</h2>
-              <button id="delete-playlist-btn" class="btn-danger-text">Hapus</button>
-            </div>
-            <div id="playlist-songs-list" class="songs-list"></div>
-          </div>
         </section>
 
-        <!-- Tab 4: Settings Screen -->
+        <!-- Screen 4: Settings View -->
         <section id="screen-settings" class="app-screen">
           <div class="settings-group glass">
             <h3>Mode Tampilan</h3>
@@ -248,7 +174,6 @@
               <button id="toggle-view-mode-btn" class="settings-action-btn">Switch Mode</button>
             </div>
           </div>
-
           <div class="settings-group glass">
             <h3>Penyimpanan Musik Luring</h3>
             <div class="settings-item">
@@ -259,237 +184,168 @@
               <button id="clear-all-songs-btn" class="btn-danger-outline">Clear All</button>
             </div>
           </div>
-
-          <div class="settings-group glass">
-            <h3>Tentang Aplikasi</h3>
-            <div class="settings-item">
-              <span>Versi Aplikasi</span>
-              <span class="version-badge">v34.0 (Offline PWA)</span>
-            </div>
-            <div class="settings-item">
-              <span>Pengembang</span>
-              <span class="version-badge">Shionege Anywhere</span>
-            </div>
-          </div>
         </section>
 
       </main>
 
-      <!-- MINI PLAYER (Docked floating bar above tab bar) -->
-      <div id="mini-player" class="mini-player-bar hidden">
-        <div class="mini-player-click-area" id="mini-player-trigger">
-          <img src="" alt="Cover" id="mini-player-cover" class="mini-cover">
-          <div class="mini-player-meta">
-            <h4 id="mini-player-title" class="marquee">Judul Lagu</h4>
-            <p id="mini-player-artist">Artis</p>
+      <!-- FLOATING GLASS MINI PLAYER (Exact Right Screen Mockup Style) -->
+      <div id="mini-player" class="floating-glass-mini-player hidden">
+        <div class="mini-click-area" id="mini-player-trigger">
+          <img src="" alt="Cover" id="mini-player-cover" class="mini-art">
+          <div class="mini-info">
+            <div class="mini-title-row">
+              <h4 id="mini-player-title" class="mini-song-name">This World</h4>
+              <span class="explicit-badge">E</span>
+            </div>
+            <p id="mini-player-artist" class="mini-artist-name">Nora Van Elken</p>
           </div>
         </div>
-        <div class="mini-player-controls">
-          <button id="mini-prev-btn" class="control-btn" aria-label="Lagu Sebelumnya">
-            <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
+        <div class="mini-actions">
+          <button id="mini-play-btn" class="mini-action-btn" aria-label="Play/Pause">
+            <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;"><rect x="6" y="4" width="4" height="16"/><rect x="14" y="4" width="4" height="16"/></svg>
           </button>
-          <button id="mini-play-btn" class="control-btn" aria-label="Play/Pause">
-            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0" style="width:22px;height:22px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <button id="mini-next-btn" class="mini-action-btn" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="currentColor" style="width:20px;height:20px;"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
           </button>
-          <button id="mini-next-btn" class="control-btn" aria-label="Skip Forward">
-            <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-          </button>
-        </div>
-        <!-- Progress line -->
-        <div class="mini-progress-bar">
-          <div id="mini-progress-line" class="mini-progress-line-fill"></div>
         </div>
       </div>
 
-      <!-- FLOATING PILL BOTTOM TAB NAVIGATION BAR (Apple Music iOS Flush Style) -->
-      <nav class="bottom-tab-bar">
-        <button class="tab-item" id="tab-import-btn" data-tab="import" onclick="switchTab('import')">
-          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          <span>Import</span>
+      <!-- BOTTOM NAVIGATION FLOATING PILL DOCK (Exact Screenshot Match) -->
+      <nav class="mockup-bottom-dock">
+        <!-- 1. Chat / Comments Bubble -->
+        <button class="dock-item" id="tab-import-btn" data-tab="import" onclick="switchTab('import')">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <span class="dot-indicator"></span>
         </button>
-        <button class="tab-item active" data-tab="library" onclick="switchTab('library')">
-          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-          <span>Library</span>
+        <!-- 2. Grid / Library (4 Squares) -->
+        <button class="dock-item active" data-tab="library" onclick="switchTab('library')">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><rect x="3" y="3" width="7" height="7" rx="2"/><rect x="14" y="3" width="7" height="7" rx="2"/><rect x="14" y="14" width="7" height="7" rx="2"/><rect x="3" y="14" width="7" height="7" rx="2"/></svg>
+          <span class="dot-indicator"></span>
         </button>
-        <button class="tab-item" id="tab-player-btn" data-tab="player" onclick="switchTab('player')">
-          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
-          <span>Player</span>
+        <!-- 3. Center Hero Glowing Orb Wave Button -->
+        <button class="dock-item hero-orb-item" id="tab-player-btn" data-tab="player" onclick="switchTab('player')">
+          <div class="hero-orb-button">
+            <div class="orb-inner-wave"></div>
+          </div>
+          <span class="dot-indicator"></span>
         </button>
-        <button class="tab-item" data-tab="playlists" onclick="switchTab('playlists')">
-          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-          <span>Playlists</span>
+        <!-- 4. Lightning / Transfer -->
+        <button class="dock-item" data-tab="playlists" onclick="switchTab('playlists')">
+          <svg viewBox="0 0 24 24" fill="currentColor" style="width:22px;height:22px;"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          <span class="dot-indicator"></span>
         </button>
-        <button class="tab-item" data-tab="settings" onclick="switchTab('settings')">
-          <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
-          <span>Settings</span>
+        <!-- 5. Equalizer / Sliders -->
+        <button class="dock-item" data-tab="settings" onclick="switchTab('settings')">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" style="width:22px;height:22px;"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><circle cx="4" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="10" r="2" fill="currentColor"/><circle cx="20" cy="14" r="2" fill="currentColor"/></svg>
+          <span class="dot-indicator"></span>
         </button>
       </nav>
 
       <!-- ==================================================== -->
-      <!-- NOW PLAYING FULL SHEET (Apple Music iOS 17 Style)    -->
+      <!-- FULL NOW PLAYING OVERLAY (Exact Left Screen Mockup)  -->
       <!-- ==================================================== -->
       <div id="now-playing-sheet" class="now-playing-overlay">
-        <!-- Drag Handle Header (Tap or Drag Down to Exit) -->
-        <div class="drag-handle-wrap" id="close-now-playing" onclick="window.dismissPlayerSheet()">
-          <div class="drag-handle"></div>
-        </div>
-
-        <!-- Audio Specs & Top Actions Bar -->
-        <div class="player-top-header">
-          <div class="audio-specs-badges">
-            <span class="spec-badge">MP3</span>
-            <span class="spec-badge">48.0kHz</span>
-            <span class="spec-badge">320kbps</span>
+        
+        <!-- Top Bar inside Sheet (Chevron Left, Energetic music / Playlist, Right Queue) -->
+        <div class="sheet-header-bar" id="close-now-playing" onclick="window.dismissPlayerSheet()">
+          <button class="sheet-icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="width:22px;height:22px;"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <div class="sheet-title-group">
+            <h3 class="sheet-main-title">Energetic music</h3>
+            <span class="sheet-subtitle">Playlist</span>
           </div>
-          <button class="top-options-btn" id="player-options-btn">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+          <button class="sheet-icon-btn">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:20px;height:20px;"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
           </button>
         </div>
 
         <div class="now-playing-content">
-          <!-- 1. Hero Album Artwork Container -->
-          <div class="album-art-container">
+          <!-- 1. Hero Artwork Carousel (Center Art + Side Peek Cards) -->
+          <div class="album-carousel-wrap">
+            <div class="carousel-peek peek-left"></div>
             <div id="player-album-art" class="large-album-art paused" style="background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
+            <div class="carousel-peek peek-right"></div>
           </div>
 
-          <!-- 2. Song Meta (Title, Artist) -->
-          <div class="player-meta-centered">
-            <h2 id="player-title" class="scroll-title">Judul Lagu</h2>
-            <p id="player-artist">Artis Lagu</p>
-          </div>
-
-          <!-- 3. Equalizer Spectrum Visualizer Canvas -->
-          <div class="eq-visualizer-card">
-            <canvas id="visualizer-canvas" class="visualizer-canvas"></canvas>
-          </div>
-
-          <!-- 4. Timeline Slider + Elapsed / Remaining Time Labels -->
-          <div class="waveform-timeline-container">
-            <div class="waveform-canvas-wrap">
-              <canvas id="waveform-canvas" class="waveform-canvas"></canvas>
-              <div id="timeline-progress-fill" class="timeline-progress-fill"></div>
-              <input type="range" id="timeline-slider" min="0" max="100" value="0" class="waveform-slider">
+          <!-- 2. Song Meta (Title, Explicit E Badge, Artist, Shuffle Button) -->
+          <div class="player-meta-row">
+            <div class="meta-left-group">
+              <div class="title-explicit-wrap">
+                <h2 id="player-title" class="player-song-title">This World</h2>
+                <span class="explicit-badge-lg">E</span>
+              </div>
+              <p id="player-artist" class="player-artist-subtitle">Nora Van Elken</p>
             </div>
-            <div class="time-row-labels">
-              <span id="time-elapsed">0:00</span>
-              <span id="time-remaining">0:00</span>
-            </div>
-          </div>
-
-          <!-- 5. Core Playback Controls (Shuffle, Rewind, Play/Pause, Fast Forward, Repeat) -->
-          <div class="playback-controls-row">
-            <button id="player-shuffle-btn" class="btn-icon-control util-icon-btn" aria-label="Acak Mode" title="Acak Mode">
+            <button id="player-shuffle-btn" class="shuffle-side-btn" aria-label="Shuffle">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
             </button>
-            <button id="player-prev-btn" class="btn-icon-control btn-skip" aria-label="Lagu Sebelumnya">
-              <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="width:28px;height:28px;"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
-            </button>
-            <button id="player-play-btn" class="btn-play-pause" aria-label="Mainkan/Jeda">
-              <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0" style="width:28px;height:28px;margin-left:2px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            </button>
-            <button id="player-next-btn" class="btn-icon-control btn-skip" aria-label="Lagu Berikutnya">
-              <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="width:28px;height:28px;"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
-            </button>
-            <button id="player-repeat-btn" class="btn-icon-control util-icon-btn" aria-label="Ulangi Mode" title="Ulangi Mode">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
-            </button>
           </div>
 
-          <!-- 6. Volume Control Slider Row -->
-          <div class="volume-slider-container">
-            <svg class="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-            <div class="vol-track-wrap">
-              <div id="volume-progress-fill" class="vol-fill"></div>
-              <input type="range" id="volume-slider" min="0" max="100" value="100" class="vol-slider">
+          <!-- 3. Timeline Slider with Crisp Handle & Time Row -->
+          <div class="mockup-timeline-wrap">
+            <div class="timeline-track-bg">
+              <div id="timeline-progress-fill" class="timeline-fill-line" style="width: 45%;"></div>
+              <div id="timeline-thumb-dot" class="timeline-thumb-handle" style="left: 45%;"></div>
+              <input type="range" id="timeline-slider" min="0" max="100" value="45" class="waveform-slider">
             </div>
-            <svg class="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+            <div class="time-row-labels">
+              <span id="time-elapsed">2:15</span>
+              <span id="time-remaining">-1:30</span>
+            </div>
           </div>
 
-          <!-- 7. Bottom Utility Toolbar -->
-          <div class="util-toolbar-row">
-            <button id="player-favorite-btn" class="util-icon-btn" title="Favorit">
+          <!-- 4. Core Playback Controls (Repeat, Rewind, Pause/Play, Fast Forward, Favorite) -->
+          <div class="mockup-controls-row">
+            <button id="player-repeat-btn" class="ctrl-btn-sub" aria-label="Repeat">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
+            </button>
+
+            <button id="player-prev-btn" class="ctrl-btn-skip" aria-label="Previous">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:28px;height:28px;"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
+            </button>
+
+            <button id="player-play-btn" class="ctrl-btn-main-pause" aria-label="Play/Pause">
+              <svg class="pause-icon" viewBox="0 0 24 24" fill="currentColor" style="width:30px;height:30px;"><rect x="6" y="4" width="5" height="16" rx="1"/><rect x="13" y="4" width="5" height="16" rx="1"/></svg>
+            </button>
+
+            <button id="player-next-btn" class="ctrl-btn-skip" aria-label="Next">
+              <svg viewBox="0 0 24 24" fill="currentColor" style="width:28px;height:28px;"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
+            </button>
+
+            <button id="player-favorite-btn" class="ctrl-btn-sub" aria-label="Favorite">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
-            <button id="player-info-btn" class="util-icon-btn" title="Info Lagu">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
-            </button>
-            <button id="player-eq-btn" class="util-icon-btn" title="Equalizer">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
-            </button>
-            <button id="player-sleep-btn-shortcut" class="util-icon-btn" title="Timer Tidur">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-            </button>
-            <button id="player-volboost-btn" class="util-icon-btn" title="Mute/Unmute">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
-            </button>
-            <button id="player-speed-btn" class="util-icon-btn" title="Kecepatan">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M12 2a10 10 0 0 0-10 10c0 4.42 2.87 8.17 6.84 9.5"/><path d="M21.16 15.5A10 10 0 0 0 12 2"/><path d="M12 12l4-4"/></svg>
-            </button>
-            <button id="player-queue-btn" class="util-icon-btn" title="Daftar Putar">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M21 15V6"/><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/><path d="M12 12H3"/><path d="M16 6H3"/><path d="M12 18H3"/></svg>
-            </button>
           </div>
+
+          <!-- Hidden elements mapped for app.js backwards compatibility -->
+          <div class="hidden">
+            <canvas id="visualizer-canvas"></canvas>
+            <canvas id="waveform-canvas"></canvas>
+            <span id="mini-progress-line"></span>
+            <input type="range" id="volume-slider" value="100">
+            <div id="volume-progress-fill"></div>
+            <button id="player-options-btn"></button>
+            <button id="player-info-btn"></button>
+            <button id="player-eq-btn"></button>
+            <button id="player-sleep-btn-shortcut"></button>
+            <button id="player-volboost-btn"></button>
+            <button id="player-speed-btn"></button>
+            <button id="player-queue-btn"></button>
+          </div>
+
         </div>
       </div>
 
-    </div>
-
-    <!-- ==================================================== -->
-    <!-- DESKTOP VIEW (Laptop Wi-Fi Transfer UI)              -->
-    <!-- ==================================================== -->
-    <div id="desktop-view" class="desktop-layout hidden">
-      <div class="desktop-card glass">
-        <div class="desktop-header">
-          <div class="app-brand">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#ff2d55" stroke-width="2" style="width:28px;height:28px;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
-            <span>Anywhere Transfer</span>
-          </div>
-          <button id="switch-to-mobile-btn" class="switch-mode-btn">
-            Switch to Mobile View
-          </button>
-        </div>
-
-        <div class="desktop-body">
-          <div class="sender-step-card">
-            <h2>Kirim Lagu ke iPhone</h2>
-            <p>Masukkan 6-digit Kode PIN yang tampil di layar iPhone Anda:</p>
-            <div class="pin-input-group">
-              <input type="text" id="pc-pin-input" maxlength="6" placeholder="000000" class="pc-pin-box">
-              <button id="pc-connect-btn" class="connect-action-btn">Sambungkan</button>
-            </div>
-            <div id="pc-status-msg" class="pc-status-msg">Belum terhubung.</div>
-
-            <!-- Dropzone for files -->
-            <div id="pc-dropzone" class="pc-dropzone disabled">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:48px;height:48px;color:var(--text-secondary);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-              <p>Tarik & Lepas File Musik (.mp3, .m4a, .flac, .wav) di sini</p>
-              <span class="subtitle">atau klik tombol di bawah untuk memilih file</span>
-              <input type="file" id="pc-file-input" accept="audio/*" multiple class="hidden">
-              <button id="pc-browse-btn" class="browse-btn" disabled>Pilih File Musik</button>
-            </div>
-
-            <!-- Upload progress on PC -->
-            <div id="pc-progress-wrap" class="pc-progress-wrap hidden">
-              <div class="pc-progress-header">
-                <span id="pc-file-name">Mengirim file...</span>
-                <span id="pc-pct">0%</span>
-              </div>
-              <div class="progress-bar-bg">
-                <div id="pc-progress-fill" class="progress-bar-fill" style="width:0%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
-  <!-- Local Vendor Scripts (100% Offline Support) -->
+  <!-- Local Vendor Scripts -->
   <script src="vendor/lucide.min.js"></script>
   <script src="vendor/jsmediatags.min.js"></script>
   <script src="vendor/peerjs.min.js"></script>
 
-  <!-- Core App Modules (Fallback for Non-Module Environments) -->
+  <!-- Core App Modules -->
   <script src="storage.js"></script>
   <script src="metadata.js"></script>
   <script src="player.js"></script>

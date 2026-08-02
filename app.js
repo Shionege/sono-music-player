@@ -331,60 +331,56 @@ function renderSongsList(songs = filteredSongs) {
 
   if (songs.length === 0) {
     els.songsList.innerHTML = `
-      <div class="empty-state">
-        <i data-lucide="music" class="empty-icon"></i>
-        <p>Tidak ada lagu ditemukan.</p>
-        <p class="subtitle">Gunakan Wi-Fi Transfer atau tombol "+" untuk menambahkan lagu baru.</p>
+      <div class="empty-state" style="text-align:center;padding:40px 20px;color:rgba(255,255,255,0.5);">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="width:48px;height:48px;margin-bottom:12px;color:rgba(255,255,255,0.3);"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <p style="font-size:16px;font-weight:600;color:#fff;margin-bottom:4px;">Belum Ada Lagu</p>
+        <p style="font-size:13px;color:rgba(255,255,255,0.5);">Impor file dari laptop via Wi-Fi Transfer atau tab Import.</p>
       </div>
     `;
-    createIconsSafe();
     return;
   }
 
+  const currentSong = AudioPlayer.getCurrentSong();
+  const isPlaying = AudioPlayer.isPlaying();
+
   songs.forEach((song, index) => {
     const row = document.createElement('div');
-    row.className = 'song-row';
+    const isCurrent = currentSong && currentSong.id === song.id;
+    row.className = `mockup-song-item ${isCurrent ? 'active' : ''}`;
     row.setAttribute('data-id', song.id);
 
-    // Cover Art
     let coverSrc = defaultCoverSVG;
     if (song.cover) {
       const url = URL.createObjectURL(song.cover);
       coverSrc = url;
-      // Auto revoke blob URL after element is deleted/garbage collected to prevent memory leak
       row.addEventListener('DOMNodeRemoved', () => URL.revokeObjectURL(url));
     }
 
     const durationText = formatTime(song.duration);
 
+    // If currently playing song, show animated sound waves indicator!
+    const rightSideHTML = isCurrent && isPlaying 
+      ? `<div class="playing-waves"><span></span><span></span><span></span></div>`
+      : `<span class="song-right-meta">${durationText}</span>`;
+
     row.innerHTML = `
-      <div class="song-cover-wrap">
-        <img src="${coverSrc}" class="song-cover-img" alt="Cover">
+      <img src="${coverSrc}" class="song-thumb" alt="Cover">
+      <div class="song-info-col">
+        <div class="song-title-row">
+          <span class="song-title-text">${escapeHTML(song.title)}</span>
+        </div>
+        <span class="song-artist-text">${escapeHTML(song.artist)}</span>
       </div>
-      <div class="song-row-meta">
-        <div class="song-row-title">${escapeHTML(song.title)}</div>
-        <div class="song-row-artist">${escapeHTML(song.artist)}</div>
-      </div>
-      <div class="song-row-right">
-        <span class="song-duration">${durationText}</span>
-        <button class="row-action-btn song-options-trigger" data-id="${song.id}">
-          <i data-lucide="more-horizontal"></i>
-        </button>
-      </div>
+      ${rightSideHTML}
     `;
 
-    // Row click play
-    row.addEventListener('click', (e) => {
-      // Don't play if clicking options button
-      if (e.target.closest('.row-action-btn')) return;
-      
+    row.addEventListener('click', () => {
       AudioPlayer.setQueue(songs, index, true);
     });
 
     els.songsList.appendChild(row);
   });
-
-  createIconsSafe();
+}
   
   // Setup row option trigger handlers
   document.querySelectorAll('.song-options-trigger').forEach(btn => {

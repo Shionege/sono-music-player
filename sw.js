@@ -4,7 +4,7 @@
  * Guarantees 100% offline app shell loading and asset caching.
  */
 
-const CACHE_NAME = 'anywhere-music-player-v35';
+const CACHE_NAME = 'anywhere-music-player-v36';
 const ESSENTIAL_ASSETS = [
   './',
   './index.html',

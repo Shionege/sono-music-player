@@ -1,11 +1,10 @@
 function createIconsSafe() {
-  const l = window.lucide || (typeof lucide !== 'undefined' ? lucide : null);
-  if (l && typeof l.createIcons === 'function') {
-    try {
-      l.createIcons();
-    } catch (e) {
-      console.warn('Lucide createIcons warning:', e);
+  try {
+    if (window.lucide && typeof window.lucide.createIcons === 'function') {
+      window.lucide.createIcons();
     }
+  } catch (e) {
+    console.warn('Lucide createIcons warning:', e);
   }
 }
 
@@ -14,10 +13,15 @@ function createIconsSafe() {
  * Main application logic, UI bindings, and WebRTC transfer glue.
  */
 
-import AudioPlayer from './player.js';
-import Storage from './storage.js';
-import Metadata from './metadata.js';
-import TransferManager from './transfer.js';
+import AudioPlayerModule from './player.js';
+import StorageModule from './storage.js';
+import MetadataModule from './metadata.js';
+import TransferManagerModule from './transfer.js';
+
+const AudioPlayer = window.AudioPlayer || AudioPlayerModule;
+const Storage = window.Storage || StorageModule;
+const Metadata = window.Metadata || MetadataModule;
+const TransferManager = window.TransferManager || TransferManagerModule;
 
 // Global state
 let allSongs = [];

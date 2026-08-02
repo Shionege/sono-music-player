@@ -1022,7 +1022,7 @@ function setupPlayerListeners() {
     els.nowPlayingSheet.classList.remove('active');
   };
 
-  // Touch Drag-to-Dismiss Handler for Now Playing Sheet
+  // Touch Drag-to-Dismiss Handler for Now Playing Sheet (iOS Safari Optimized)
   const sheet = els.nowPlayingSheet;
   let startY = 0;
   let currentY = 0;
@@ -1032,17 +1032,14 @@ function setupPlayerListeners() {
     sheet.addEventListener('touchstart', (e) => {
       const touchY = e.touches[0].clientY;
       const target = e.target;
-      // Don't drag if user is interacting with timeline or volume sliders
-      if (target.closest('.waveform-slider') || target.closest('.vol-slider') || target.closest('button')) {
+      // Don't drag if user is interacting directly with range sliders
+      if (target.closest('.waveform-slider') || target.closest('.vol-slider')) {
         return;
       }
 
-      // Allow dragging from top 60% of player screen (drag handle, header, album art, title/artist)
-      if (touchY < window.innerHeight * 0.65 || target.closest('.drag-handle-wrap') || target.closest('.player-top-header') || target.closest('.album-art-container') || target.closest('.player-meta-centered')) {
-        isDragging = true;
-        startY = touchY;
-        sheet.style.transition = 'none';
-      }
+      isDragging = true;
+      startY = touchY;
+      sheet.style.transition = 'none';
     }, { passive: true });
 
     sheet.addEventListener('touchmove', (e) => {
@@ -1050,14 +1047,15 @@ function setupPlayerListeners() {
       currentY = e.touches[0].clientY - startY;
       if (currentY > 0) {
         sheet.style.transform = `translateY(${currentY}px)`;
+        if (e.cancelable) e.preventDefault();
       }
-    }, { passive: true });
+    }, { passive: false });
 
     sheet.addEventListener('touchend', () => {
       if (!isDragging) return;
       isDragging = false;
       sheet.style.transition = 'transform 0.35s cubic-bezier(0.19, 1, 0.22, 1)';
-      if (currentY > 50) {
+      if (currentY > 40) {
         sheet.classList.remove('active');
         sheet.style.transform = '';
       } else {

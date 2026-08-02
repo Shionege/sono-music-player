@@ -359,13 +359,13 @@
         </div>
         <div class="mini-player-controls">
           <button id="mini-prev-btn" class="control-btn" aria-label="Lagu Sebelumnya">
-            <i data-lucide="rewind"></i>
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
           </button>
           <button id="mini-play-btn" class="control-btn" aria-label="Play/Pause">
-            <i data-lucide="play"></i>
+            <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0" style="width:22px;height:22px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
           </button>
           <button id="mini-next-btn" class="control-btn" aria-label="Skip Forward">
-            <i data-lucide="fast-forward"></i>
+            <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
           </button>
         </div>
         <!-- Progress line -->
@@ -418,7 +418,7 @@
             <span class="spec-badge">320kbps</span>
           </div>
           <button class="top-options-btn" id="player-options-btn">
-            <i data-lucide="more-horizontal"></i>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
           </button>
         </div>
 
@@ -455,54 +455,54 @@
           <!-- 5. Core Playback Controls (Shuffle, Rewind, Play/Pause, Fast Forward, Repeat) -->
           <div class="playback-controls-row">
             <button id="player-shuffle-btn" class="btn-icon-control util-icon-btn" aria-label="Acak Mode" title="Acak Mode">
-              <i data-lucide="shuffle"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
             </button>
             <button id="player-prev-btn" class="btn-icon-control btn-skip" aria-label="Lagu Sebelumnya">
-              <i data-lucide="rewind"></i>
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="width:28px;height:28px;"><polygon points="11 19 2 12 11 5 11 19"/><polygon points="22 19 13 12 22 5 22 19"/></svg>
             </button>
             <button id="player-play-btn" class="btn-play-pause" aria-label="Mainkan/Jeda">
-              <i data-lucide="play" class="play-icon"></i>
+              <svg class="play-icon" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="0" style="width:28px;height:28px;margin-left:2px;"><polygon points="5 3 19 12 5 21 5 3"/></svg>
             </button>
             <button id="player-next-btn" class="btn-icon-control btn-skip" aria-label="Lagu Berikutnya">
-              <i data-lucide="fast-forward"></i>
+              <svg viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2" style="width:28px;height:28px;"><polygon points="13 19 22 12 13 5 13 19"/><polygon points="2 19 11 12 2 5 2 19"/></svg>
             </button>
             <button id="player-repeat-btn" class="btn-icon-control util-icon-btn" aria-label="Ulangi Mode" title="Ulangi Mode">
-              <i data-lucide="repeat"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:22px;height:22px;"><polyline points="17 1 21 5 17 9"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><polyline points="7 23 3 19 7 15"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/></svg>
             </button>
           </div>
 
           <!-- 6. Volume Control Slider Row -->
           <div class="volume-slider-container">
-            <i data-lucide="volume-1" class="vol-icon"></i>
+            <svg class="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
             <div class="vol-track-wrap">
               <div id="volume-progress-fill" class="vol-fill"></div>
               <input type="range" id="volume-slider" min="0" max="100" value="100" class="vol-slider">
             </div>
-            <i data-lucide="volume-2" class="vol-icon"></i>
+            <svg class="vol-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
           </div>
 
           <!-- 7. Bottom Utility Toolbar -->
           <div class="util-toolbar-row">
             <button id="player-favorite-btn" class="util-icon-btn" title="Favorit">
-              <i data-lucide="heart"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
             </button>
             <button id="player-info-btn" class="util-icon-btn" title="Info Lagu">
-              <i data-lucide="info"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>
             </button>
             <button id="player-eq-btn" class="util-icon-btn" title="Equalizer">
-              <i data-lucide="sliders"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/></svg>
             </button>
             <button id="player-sleep-btn-shortcut" class="util-icon-btn" title="Timer Tidur">
-              <i data-lucide="clock"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
             </button>
             <button id="player-volboost-btn" class="util-icon-btn" title="Mute/Unmute">
-              <i data-lucide="volume-2"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
             </button>
             <button id="player-speed-btn" class="util-icon-btn" title="Kecepatan">
-              <i data-lucide="gauge"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M12 2a10 10 0 0 0-10 10c0 4.42 2.87 8.17 6.84 9.5"/><path d="M21.16 15.5A10 10 0 0 0 12 2"/><path d="M12 12l4-4"/></svg>
             </button>
             <button id="player-queue-btn" class="util-icon-btn" title="Daftar Putar">
-              <i data-lucide="list-music"></i>
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M21 15V6"/><path d="M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5z"/><path d="M12 12H3"/><path d="M16 6H3"/><path d="M12 18H3"/></svg>
             </button>
           </div>
         </div>

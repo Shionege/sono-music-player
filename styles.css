@@ -999,6 +999,7 @@ input:checked + .slider:before {
   transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1), visibility 0.45s;
   pointer-events: none;
   visibility: hidden;
+  touch-action: pan-y;
 }
 
 .now-playing-overlay.active {

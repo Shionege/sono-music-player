@@ -902,13 +902,13 @@ input:checked + .slider:before {
   width: 100%;
   max-width: 100%;
   margin: 0;
-  height: calc(62px + env(safe-area-inset-bottom, 0px));
-  padding-top: 4px;
-  padding-bottom: calc(4px + env(safe-area-inset-bottom, 0px));
-  background: rgba(18, 10, 30, 0.96);
+  height: calc(52px + env(safe-area-inset-bottom, 0px));
+  padding-top: 2px;
+  padding-bottom: env(safe-area-inset-bottom, 0px);
+  background: rgba(14, 14, 16, 0.94);
   backdrop-filter: blur(30px) saturate(180%);
   -webkit-backdrop-filter: blur(30px) saturate(180%);
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 0;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
@@ -917,21 +917,22 @@ input:checked + .slider:before {
   padding-right: 0;
   z-index: 100;
   box-shadow: 0 -4px 25px rgba(0, 0, 0, 0.7);
+  box-sizing: border-box;
 }
 
 .tab-item {
   background: transparent;
-  border-radius: 14px;
+  border-radius: 12px;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
   color: rgba(255, 255, 255, 0.6);
   font-weight: 500;
   font-size: 10px;
-  height: 52px;
+  height: 44px;
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px 0;
+  padding: 2px 0;
   transition: all 0.25s ease;
   border: none;
   cursor: pointer;

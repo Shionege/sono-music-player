@@ -1010,7 +1010,14 @@ function setupPlayerListeners() {
   if (sheet) {
     sheet.addEventListener('touchstart', (e) => {
       const touchY = e.touches[0].clientY;
-      if (e.target.closest('.drag-handle-wrap') || e.target.closest('.player-top-header') || touchY < 220) {
+      const target = e.target;
+      // Don't drag if user is interacting with timeline or volume sliders
+      if (target.closest('.waveform-slider') || target.closest('.vol-slider') || target.closest('button')) {
+        return;
+      }
+
+      // Allow dragging from top 60% of player screen (drag handle, header, album art, title/artist)
+      if (touchY < window.innerHeight * 0.65 || target.closest('.drag-handle-wrap') || target.closest('.player-top-header') || target.closest('.album-art-container') || target.closest('.player-meta-centered')) {
         isDragging = true;
         startY = touchY;
         sheet.style.transition = 'none';
@@ -1029,7 +1036,7 @@ function setupPlayerListeners() {
       if (!isDragging) return;
       isDragging = false;
       sheet.style.transition = 'transform 0.35s cubic-bezier(0.19, 1, 0.22, 1)';
-      if (currentY > 70) {
+      if (currentY > 50) {
         sheet.classList.remove('active');
         sheet.style.transform = '';
       } else {

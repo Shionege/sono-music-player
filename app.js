@@ -1,7 +1,8 @@
 function createIconsSafe() {
-  if (typeof lucide !== 'undefined' && lucide && typeof lucide.createIcons === 'function') {
+  const l = window.lucide || (typeof lucide !== 'undefined' ? lucide : null);
+  if (l && typeof l.createIcons === 'function') {
     try {
-      lucide.createIcons();
+      l.createIcons();
     } catch (e) {
       console.warn('Lucide createIcons warning:', e);
     }

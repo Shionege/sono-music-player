@@ -33,6 +33,7 @@
   <link rel="manifest" href="manifest.json">
   
   <!-- Apple Touch Startup Images for iOS Standalone PWA (Catch-All Protection for All iPhone Resolutions) -->
+  <link rel="apple-touch-startup-image" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGNgYGAAAAAEAAH27f74AAAAAElFTkSuQmCC">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
@@ -44,11 +45,6 @@
   <link rel="apple-touch-startup-image" href="icons/splash/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
   <!-- Universal Default Fallback for all other resolutions -->
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1179x2556.png">
-  
-  <!-- Local Vendor Scripts (100% Offline Support) -->
-  <script src="vendor/lucide.min.js"></script>
-  <script src="vendor/jsmediatags.min.js"></script>
-  <script src="vendor/peerjs.min.js"></script>
 </head>
 <body style="background-color: #000000; margin: 0; padding: 0;">
 
@@ -807,7 +803,10 @@
         window.addEventListener('load', function() { setTimeout(dismissSplash, 100); });
       }
     })();
-  </script>
+  <!-- Local Vendor Scripts (100% Offline Support) -->
+  <script src="vendor/lucide.min.js"></script>
+  <script src="vendor/jsmediatags.min.js"></script>
+  <script src="vendor/peerjs.min.js"></script>
   <script type="module" src="app.js"></script>
 </body>
 </html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id" style="background-color: #000000; background: #000000; color-scheme: dark;">
+<html lang="id" style="background-color: #000000 !important; background: #000000 !important; color-scheme: dark !important;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
@@ -7,13 +7,14 @@
   
   <!-- Critical Inline Style to 100% eliminate White Screen Flash on iOS Standalone PWA -->
   <style>
-    :root, html, body, #app, #splash-screen {
+    html, body, #app, :root {
       background-color: #000000 !important;
       background: #000000 !important;
       color: #ffffff !important;
       margin: 0 !important;
       padding: 0 !important;
       -webkit-tap-highlight-color: transparent;
+      color-scheme: dark !important;
     }
   </style>
 
@@ -28,8 +29,8 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
   
-  <!-- Apple Touch Startup Images for iOS Standalone PWA (Fixes White Splash Screen Issue #57) -->
-  <link rel="apple-touch-startup-image" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==">
+  <!-- Apple Touch Startup Images for iOS Standalone PWA (Solid Black Fallback to Fix White Screen Issue #57) -->
+  <link rel="apple-touch-startup-image" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGNgYGAAAAAEAAH27f74AAAAAElFTkSuQmCC">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1284x2778.png" media="(device-width: 428px) and (device-height: 926px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">

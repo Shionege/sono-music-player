@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Anywhere - Offline Music Player</title>
   
-  <!-- Critical Inline Style to 100% eliminate White Screen Flash on iOS Standalone PWA -->
+  <!-- Critical Inline Style to 100% Eliminate White Screen Flash on iOS Standalone PWA -->
   <style>
     html, body, #app, :root {
       background-color: #000000 !important;
@@ -79,7 +79,7 @@
   <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
   <link rel="manifest" href="manifest.json">
   
-  <!-- Apple Touch Startup Images for iOS Standalone PWA (Catch-All Protection for All iPhone Resolutions) -->
+  <!-- Apple Touch Startup Images for iOS Standalone PWA (Solid Black Fallback to Fix White Screen Issue) -->
   <link rel="apple-touch-startup-image" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR4nGNgYGAAAAAEAAH27f74AAAAAElFTkSuQmCC">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1290x2796.png" media="(device-width: 430px) and (device-height: 932px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1179x2556.png" media="(device-width: 393px) and (device-height: 852px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
@@ -90,7 +90,6 @@
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1125x2436.png" media="(device-width: 375px) and (device-height: 812px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1242x2208.png" media="(device-width: 414px) and (device-height: 736px) and (-webkit-device-pixel-ratio: 3) and (orientation: portrait)">
   <link rel="apple-touch-startup-image" href="icons/splash/splash-750x1334.png" media="(device-width: 375px) and (device-height: 667px) and (-webkit-device-pixel-ratio: 2) and (orientation: portrait)">
-  <!-- Universal Default Fallback for all other resolutions -->
   <link rel="apple-touch-startup-image" href="icons/splash/splash-1179x2556.png">
 </head>
 <body style="background-color: #000000; margin: 0; padding: 0;">
@@ -102,15 +101,13 @@
     <div class="gradient-ball ball3"></div>
   </div>
 
-  <!-- MAIN APP CONTAINER -->
-  <div id="app" class="app-container">
-    
+  <div id="app">
     <!-- ==================================================== -->
-    <!-- MOBILE VIEW (iPhone Music Player)                    -->
+    <!-- MOBILE VIEW (iPhone Music Player UI)                 -->
     <!-- ==================================================== -->
     <div id="mobile-view" class="mobile-layout">
       
-      <!-- TOP HEADER BAR (Exact Screenshot Style) -->
+      <!-- TOP HEADER BAR (Apple Music Header) -->
       <header class="mobile-header">
         <h1 id="screen-title" class="header-title-bold">Songs</h1>
         <div class="header-right-actions">
@@ -131,241 +128,154 @@
 
         <!-- Tab 1: Library Screen -->
         <section id="screen-library" class="app-screen active">
-          <!-- Segmented Filter Bar & Action Header -->
-          <div class="segmented-control-bar" style="display: flex; align-items: center; gap: 8px;">
-            <button class="segment-btn active" data-segment="songs" style="flex: 1;">Songs (<span id="songs-count">0</span>)</button>
-            <button class="segment-btn" data-segment="artists" style="flex: 1;">Artists</button>
-            <button class="segment-btn" data-segment="albums" style="flex: 1;">Albums</button>
+          <!-- Library Search Input (hidden by default) -->
+          <div id="library-search-wrap" class="search-bar-wrap hidden">
+            <input type="text" id="library-search-input" placeholder="Cari lagu, artis, atau album..." class="search-input">
           </div>
 
-          <div class="library-actions-row" style="display: flex; gap: 8px; margin: 10px 0;">
-            <button id="shuffle-play-btn" class="btn-secondary btn-sm" style="flex: 1; padding: 8px 12px; font-size: 13px; border-radius: 10px;">
-              <i data-lucide="shuffle"></i> Putar Acak
+          <!-- Segmented Control Filters Bar -->
+          <div class="segmented-control-bar">
+            <button class="segmented-btn active" data-filter="songs">Songs ( <span id="songs-count">0</span> )</button>
+            <button class="segmented-btn" data-filter="artists">Artists</button>
+            <button class="segmented-btn" data-filter="albums">Albums</button>
+          </div>
+
+          <!-- Quick Action Buttons Row -->
+          <div class="quick-action-row">
+            <button id="shuffle-play-btn" class="quick-action-btn primary-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+              <span>Putar Acak</span>
             </button>
-            <button id="add-song-btn" class="btn-secondary btn-sm" style="flex: 1; padding: 8px 12px; font-size: 13px; border-radius: 10px;">
-              <i data-lucide="plus"></i> Tambah Lagu
-            </button>
-            <button id="manual-upload-btn" class="btn-secondary btn-sm hidden" style="flex: 1; padding: 8px 12px; font-size: 13px; border-radius: 10px;">
-              <i data-lucide="upload"></i> Upload
+            <button id="add-song-btn" class="quick-action-btn secondary-action">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Tambah Lagu</span>
             </button>
           </div>
 
-          <!-- Search Bar Container (Toggled via search icon) -->
-          <div class="search-bar-container hidden" id="search-bar-wrap">
-            <i data-lucide="search" class="search-icon"></i>
-            <input type="text" id="library-search" placeholder="Cari lagu, artis, album...">
-          </div>
-
+          <!-- Main Songs List Container -->
           <div id="songs-list" class="songs-list">
-            <!-- Dynamic song items go here -->
-            <div class="empty-state">
-              <i data-lucide="music" class="empty-icon"></i>
-              <p>Belum ada lagu di library Anda.</p>
-              <p class="subtitle">Impor file dari laptop via WiFi Transfer atau klik tab Import untuk mentransfer lagu.</p>
-            </div>
+            <!-- Dynamic song items rendered by app.js -->
           </div>
         </section>
 
-        <!-- Tab 2: Playlists Screen -->
-        <section id="screen-playlists" class="app-screen">
-          <div class="playlist-header">
-            <button id="create-playlist-btn" class="btn-secondary">
-              <i data-lucide="plus"></i> Buat Playlist Baru
-            </button>
-          </div>
-
-          <!-- Fixed Favorite Playlist -->
-          <div class="playlist-card favorite-playlist" id="fav-playlist-card">
-            <div class="playlist-icon-wrap">
-              <i data-lucide="heart" class="heart-icon-fill"></i>
-            </div>
-            <div class="playlist-info">
-              <h3>Lagu Favorit</h3>
-              <p><span id="fav-count">0</span> Lagu</p>
-            </div>
-          </div>
-
-          <div id="playlists-list" class="playlists-list-container">
-            <!-- Dynamic playlists list -->
-          </div>
-
-          <!-- Playlist Details View (Slides in over playlist tab) -->
-          <div id="playlist-details-view" class="playlist-details-overlay">
-            <div class="playlist-details-header">
-              <button id="close-playlist-details" class="back-btn">
-                <i data-lucide="chevron-left"></i> Kembali
-              </button>
-              <button id="delete-playlist-btn" class="delete-playlist-btn text-danger">
-                <i data-lucide="trash-2"></i> Hapus
-              </button>
-            </div>
-            <h2 id="playlist-details-title">Nama Playlist</h2>
-            <p id="playlist-details-count" class="subtitle">0 Lagu</p>
-            
-            <div style="display: flex; gap: 10px; margin: 15px 0;">
-              <button id="playlist-add-songs-btn" class="btn-primary btn-sm" style="flex: 1; padding: 12px; font-size: 14px; border-radius: 12px;">
-                <i data-lucide="plus-circle"></i> Tambah Lagu
-              </button>
-            </div>
-
-            <div id="playlist-songs-list" class="songs-list">
-              <!-- Songs in playlist -->
-            </div>
-          </div>
-        </section>
-
-        <!-- Tab 4: Settings Screen -->
-        <section id="screen-settings" class="app-screen">
-          <div class="settings-group">
-            <h3>Konektivitas</h3>
-            <div class="settings-item" id="setting-wifi-transfer">
-              <div class="settings-item-left">
-                <i data-lucide="wifi" class="settings-icon text-accent"></i>
-                <div>
-                  <h4>Wi-Fi Transfer</h4>
-                  <p class="subtitle">Kirim musik dari laptop ke iPhone</p>
-                </div>
-              </div>
-              <i data-lucide="chevron-right"></i>
-            </div>
-          </div>
-
-          <div class="settings-group">
-            <h3>Putar & Suara</h3>
-            <div class="settings-item" id="setting-sleep-timer">
-              <div class="settings-item-left">
-                <i data-lucide="timer" class="settings-icon text-warning"></i>
-                <div>
-                  <h4>Timer Tidur (Sleep Timer)</h4>
-                  <p class="subtitle" id="sleep-timer-status">Mati</p>
-                </div>
-              </div>
-              <i data-lucide="chevron-right"></i>
-            </div>
-            
-            <div class="settings-item" id="setting-visualizer">
-              <div class="settings-item-left">
-                <i data-lucide="activity" class="settings-icon text-success"></i>
-                <div>
-                  <h4>Equalizer & Visualizer</h4>
-                  <p class="subtitle" id="visualizer-status">Aktif (Efek Gelombang)</p>
-                </div>
-              </div>
-              <label class="switch">
-                <input type="checkbox" id="toggle-visualizer-checkbox" checked>
-                <span class="slider round"></span>
-              </label>
-            </div>
-          </div>
-
-          <div class="settings-group">
-            <h3>Penyimpanan</h3>
-            <div class="settings-item-static">
-              <div class="settings-item-left">
-                <i data-lucide="database" class="settings-icon text-info"></i>
-                <div>
-                  <h4>Kapasitas Memori</h4>
-                  <p class="subtitle" id="storage-usage-text">Digunakan: ... MB / Tersedia: ... MB</p>
-                </div>
-              </div>
-            </div>
-            <button id="clear-database-btn" class="settings-item text-danger text-left-align-btn">
-              <div class="settings-item-left">
-                <i data-lucide="trash-2" class="settings-icon"></i>
-                <div>
-                  <h4>Hapus Semua Lagu & Data</h4>
-                  <p class="subtitle">Kosongkan penyimpanan aplikasi</p>
-                </div>
-              </div>
-            </button>
-          </div>
-
-          <div class="settings-group">
-            <h3>Tema Warna</h3>
-            <div class="settings-item-static" style="padding: 12px 16px;">
-              <div class="theme-selection-row" style="display: flex; gap: 16px; width: 100%;">
-                <button class="theme-dot active" data-theme="default" style="width: 34px; height: 34px; border-radius: 50%; background: #ff2d55; border: 2px solid #ffffff; cursor: pointer; padding:0; outline:none; transition:transform 0.2s;" aria-label="Default Red"></button>
-                <button class="theme-dot" data-theme="purple" style="width: 34px; height: 34px; border-radius: 50%; background: #af52de; border: 2px solid transparent; cursor: pointer; padding:0; outline:none; transition:transform 0.2s;" aria-label="Purple"></button>
-                <button class="theme-dot" data-theme="blue" style="width: 34px; height: 34px; border-radius: 50%; background: #007aff; border: 2px solid transparent; cursor: pointer; padding:0; outline:none; transition:transform 0.2s;" aria-label="Blue"></button>
-                <button class="theme-dot" data-theme="green" style="width: 34px; height: 34px; border-radius: 50%; background: #34c759; border: 2px solid transparent; cursor: pointer; padding:0; outline:none; transition:transform 0.2s;" aria-label="Green"></button>
-                <button class="theme-dot" data-theme="orange" style="width: 34px; height: 34px; border-radius: 50%; background: #ff9500; border: 2px solid transparent; cursor: pointer; padding:0; outline:none; transition:transform 0.2s;" aria-label="Orange"></button>
-              </div>
-            </div>
-          </div>
-
-          <div class="settings-group about-group">
-            <h3>Tentang Aplikasi</h3>
-            <div class="settings-item-static">
-              <div class="settings-item-left">
-                <div class="app-logo-small">S</div>
-                <div>
-                  <h4>Anywhere Music Player PWA</h4>
-                  <p class="subtitle">Versi 1.0 (Offline-First Web App)</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <!-- Dedicated Import Page Screen (Full-Screen Dedicated Wi-Fi & File Importer) -->
+        <!-- Tab 2: Wi-Fi Transfer Import Screen -->
         <section id="screen-import" class="app-screen">
-          <div class="import-page-container">
-            <div class="import-header-card glass">
-              <div style="display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px;">
-                <i data-lucide="wifi" class="import-wifi-icon wifi-pulse" style="width:28px;height:28px;color:var(--primary-color);"></i>
-                <h2 style="margin:0;font-size:20px;font-weight:700;">Wi-Fi Transfer Anywhere</h2>
-              </div>
-              <p class="subtitle" style="text-align:center;margin-bottom:14px;">Buka link website ini (<strong>https://shionege.github.io/sono-music-player/</strong>) di browser laptop (PC) Anda, lalu masukkan 6-digit kode di bawah ini:</p>
-              
-              <div class="pairing-code-display-page">
-                <span id="import-pairing-code">------</span>
-              </div>
-
-              <div id="import-status-info" class="wifi-status" style="margin-top:12px;text-align:center;">
-                <span class="status-dot dot-waiting"></span> Menunggu sambungan dari laptop...
-              </div>
-
-              <div class="quick-file-upload-row" style="margin-top:18px;border-top:1px solid rgba(255,255,255,0.08);padding-top:14px;">
-                <p class="subtitle" style="text-align:center;margin-bottom:8px;font-size:12px;">Atau pilih file lokal di HP Anda:</p>
-                <button id="import-pick-file-btn" class="btn-secondary btn-block">
-                  <i data-lucide="folder-plus"></i> Pilih File Musik dari HP
-                </button>
+          <div class="import-card glass">
+            <div class="import-icon-wrap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="#ff2d55" stroke-width="2" style="width:36px;height:36px;"><path d="M5 12.55a11 11 0 0 1 14.08 0"/><path d="M1.42 9a16 16 0 0 1 21.16 0"/><path d="M8.53 16.11a6 6 0 0 1 6.95 0"/><line x1="12" y1="20" x2="12.01" y2="20"/></svg>
+            </div>
+            <h2>Wi-Fi Transfer Anywhere</h2>
+            <p class="import-desc">
+              Buka link website ini di browser laptop (PC) Anda, lalu masukkan 6-digit kode di bawah ini:
+            </p>
+            <div class="code-box-wrap">
+              <div class="url-display">https://shionege.github.io/sono-music-player/</div>
+              <div id="transfer-code" class="pin-code">------</div>
+              <div id="transfer-status" class="connection-status">
+                <span class="status-dot orange"></span> Menunggu sambungan dari laptop...
               </div>
             </div>
 
-            <!-- Rich Real-Time Transfer Progress & History -->
-            <div id="import-progress-card" class="import-progress-card glass hidden" style="margin-top:14px;padding:16px;border-radius:16px;">
-              <h3 style="margin-top:0;margin-bottom:12px;font-size:14px;font-weight:600;color:#fff;">Mentransfer Real-Time...</h3>
-              
-              <div class="receiver-song-card" id="import-receiver-card">
-                <div class="receiver-song-art" id="import-song-art">
-                  <i data-lucide="music" style="width:24px;height:24px;color:var(--primary-color);"></i>
-                </div>
-                <div class="receiver-song-info">
-                  <p id="import-transferring-filename" class="receiver-song-name">Mengunduh lagu...</p>
-                  <p id="import-receiver-size-text" class="receiver-song-size">0 MB / 0 MB</p>
+            <!-- Alternative local picker button inside import tab -->
+            <div class="import-divider"><span>Atau pilih file lokal di HP Anda:</span></div>
+            <button id="manual-upload-btn" class="upload-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:20px;height:20px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Pilih File Musik dari HP</span>
+            </button>
+
+            <!-- Receiver progress bar -->
+            <div id="import-progress-card" class="import-progress-card glass hidden">
+              <div class="progress-info">
+                <div class="receiver-meta">
+                  <span id="import-file-name" class="file-name">Mengirim file...</span>
+                  <span id="import-file-size" class="file-size">0 MB</span>
                 </div>
                 <span id="import-receiver-pct" class="receiver-pct">0%</span>
               </div>
-              
               <div class="progress-bar-bg" style="margin-top:12px;height:6px;border-radius:3px;">
                 <div id="import-progress-fill" class="progress-bar-fill" style="width:0%"></div>
               </div>
             </div>
 
-            <!-- List of All Received Songs in this session -->
             <div id="import-done-container" class="import-done-container glass hidden" style="margin-top:14px;padding:16px;border-radius:16px;">
               <h3 style="margin:0 0 10px 0;font-size:14px;color:#30d158;display:flex;align-items:center;gap:6px;">
-                <i data-lucide="check-circle" style="width:18px;height:18px;"></i> Lagu Berhasil Disimpan:
+                Lagu Berhasil Disimpan:
               </h3>
               <div id="import-done-items" class="import-done-items" style="max-height:220px;overflow-y:auto;"></div>
             </div>
           </div>
         </section>
 
+        <!-- Tab 3: Playlists Screen -->
+        <section id="screen-playlists" class="app-screen">
+          <div class="playlist-header">
+            <button id="create-playlist-btn" class="quick-action-btn primary-action" style="width: 100%;">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+              <span>Buat Playlist Baru</span>
+            </button>
+          </div>
+          
+          <div id="playlists-grid" class="playlists-grid">
+            <!-- Favorite songs card default -->
+            <div class="playlist-card glass" id="fav-playlist-card">
+              <div class="playlist-cover favorite-gradient">
+                <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" style="width:32px;height:32px;color:#fff;"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/></svg>
+              </div>
+              <div class="playlist-meta">
+                <h3>Lagu Favorit</h3>
+                <p><span id="fav-count">0</span> Lagu</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Selected Playlist Details View (Hidden by default) -->
+          <div id="playlist-details-view" class="playlist-details-container hidden">
+            <div class="playlist-details-header">
+              <button id="back-to-playlists-btn" class="icon-back-btn">&larr; Kembali</button>
+              <h2 id="playlist-details-title">Judul Playlist</h2>
+              <button id="delete-playlist-btn" class="btn-danger-text">Hapus</button>
+            </div>
+            <div id="playlist-songs-list" class="songs-list"></div>
+          </div>
+        </section>
+
+        <!-- Tab 4: Settings Screen -->
+        <section id="screen-settings" class="app-screen">
+          <div class="settings-group glass">
+            <h3>Mode Tampilan</h3>
+            <div class="settings-item">
+              <span>Beralih Mode Tampilan</span>
+              <button id="toggle-view-mode-btn" class="settings-action-btn">Switch Mode</button>
+            </div>
+          </div>
+
+          <div class="settings-group glass">
+            <h3>Penyimpanan Musik Luring</h3>
+            <div class="settings-item">
+              <div>
+                <span>Kapasitas Digunakan</span>
+                <p class="subtitle" id="storage-usage-text">Mengukur...</p>
+              </div>
+              <button id="clear-all-songs-btn" class="btn-danger-outline">Clear All</button>
+            </div>
+          </div>
+
+          <div class="settings-group glass">
+            <h3>Tentang Aplikasi</h3>
+            <div class="settings-item">
+              <span>Versi Aplikasi</span>
+              <span class="version-badge">v34.0 (Offline PWA)</span>
+            </div>
+            <div class="settings-item">
+              <span>Pengembang</span>
+              <span class="version-badge">Shionege Anywhere</span>
+            </div>
+          </div>
+        </section>
+
       </main>
 
-      <!-- MINI PLAYER (Docked above tab bar) -->
+      <!-- MINI PLAYER (Docked floating bar above tab bar) -->
       <div id="mini-player" class="mini-player-bar hidden">
         <div class="mini-player-click-area" id="mini-player-trigger">
           <img src="" alt="Cover" id="mini-player-cover" class="mini-cover">
@@ -391,7 +301,7 @@
         </div>
       </div>
 
-      <!-- FLOATING PILL BOTTOM TAB NAVIGATION BAR (Gambar 1 Style) -->
+      <!-- FLOATING PILL BOTTOM TAB NAVIGATION BAR (Apple Music iOS Flush Style) -->
       <nav class="bottom-tab-bar">
         <button class="tab-item" id="tab-import-btn" data-tab="import" onclick="switchTab('import')">
           <svg class="nav-svg-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
@@ -416,9 +326,6 @@
       </nav>
 
       <!-- ==================================================== -->
-      <!-- FULL NOW PLAYING SLIDE-UP SHEET (Gambar 1 Style)     -->
-      <!-- ==================================================== -->
-      <!-- ==================================================== -->
       <!-- NOW PLAYING FULL SHEET (Apple Music iOS 17 Style)    -->
       <!-- ==================================================== -->
       <div id="now-playing-sheet" class="now-playing-overlay">
@@ -442,7 +349,7 @@
         <div class="now-playing-content">
           <!-- 1. Hero Album Artwork Container -->
           <div class="album-art-container">
-            <div id="player-album-art" class="large-album-art paused" style="background-size: cover; background-position: center; background-repeat: no-repeat; background-image: url('placeholder.png');"></div>
+            <div id="player-album-art" class="large-album-art paused" style="background-size: cover; background-position: center; background-repeat: no-repeat;"></div>
           </div>
 
           <!-- 2. Song Meta (Title, Artist) -->
@@ -532,324 +439,51 @@
     <!-- ==================================================== -->
     <div id="desktop-view" class="desktop-layout hidden">
       <div class="desktop-card glass">
-        <header class="desktop-header" style="position: relative;">
-          <button id="switch-to-mobile-btn" class="btn-secondary btn-sm" style="position: absolute; top: 0; right: 0; padding: 8px 14px; font-size: 12px; border-radius: 10px; display: flex; align-items: center; gap: 6px;">
-            <i data-lucide="smartphone"></i> Buka Pemutar Musik Web
+        <div class="desktop-header">
+          <div class="app-brand">
+            <svg viewBox="0 0 24 24" fill="none" stroke="#ff2d55" stroke-width="2" style="width:28px;height:28px;"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+            <span>Anywhere Transfer</span>
+          </div>
+          <button id="switch-to-mobile-btn" class="switch-mode-btn">
+            Switch to Mobile View
           </button>
-          <div class="app-logo">S</div>
-          <h1>Anywhere Wi-Fi Music Transfer</h1>
-          <p class="subtitle">Kirim file musik dari laptop Anda langsung ke iPhone melalui koneksi P2P aman.</p>
-        </header>
+        </div>
 
-        <main class="desktop-main-content">
-          
-          <!-- State 1: Disconnected / Enter Pairing Code -->
-          <div id="desktop-pairing-state" class="pairing-container active">
-            <div class="instructions-card">
-              <h3>Cara Mengirim Lagu ke iPhone:</h3>
-              <ol>
-                <li>Buka aplikasi <strong>Anywhere</strong> di iPhone Anda.</li>
-                <li>Pergi ke menu <strong>Settings</strong> -> <strong>Wi-Fi Transfer</strong>.</li>
-                <li>Masukkan 6 digit kode yang tampil di layar iPhone Anda di bawah ini:</li>
-              </ol>
+        <div class="desktop-body">
+          <div class="sender-step-card">
+            <h2>Kirim Lagu ke iPhone</h2>
+            <p>Masukkan 6-digit Kode PIN yang tampil di layar iPhone Anda:</p>
+            <div class="pin-input-group">
+              <input type="text" id="pc-pin-input" maxlength="6" placeholder="000000" class="pc-pin-box">
+              <button id="pc-connect-btn" class="connect-action-btn">Sambungkan</button>
+            </div>
+            <div id="pc-status-msg" class="pc-status-msg">Belum terhubung.</div>
+
+            <!-- Dropzone for files -->
+            <div id="pc-dropzone" class="pc-dropzone disabled">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:48px;height:48px;color:var(--text-secondary);"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              <p>Tarik & Lepas File Musik (.mp3, .m4a, .flac, .wav) di sini</p>
+              <span class="subtitle">atau klik tombol di bawah untuk memilih file</span>
+              <input type="file" id="pc-file-input" accept="audio/*" multiple class="hidden">
+              <button id="pc-browse-btn" class="browse-btn" disabled>Pilih File Musik</button>
             </div>
 
-            <div class="code-input-form">
-              <label for="pairing-code-input">Masukkan Kode 6-Digit:</label>
-              <div class="code-inputs">
-                <input type="text" id="p-code" placeholder="123 456" maxlength="6" autocomplete="off" autofocus>
+            <!-- Upload progress on PC -->
+            <div id="pc-progress-wrap" class="pc-progress-wrap hidden">
+              <div class="pc-progress-header">
+                <span id="pc-file-name">Mengirim file...</span>
+                <span id="pc-pct">0%</span>
               </div>
-              <button id="connect-to-iphone-btn" class="btn-primary btn-block">Hubungkan ke iPhone</button>
-              <p id="desktop-error-message" class="text-danger hidden"></p>
-            </div>
-          </div>
-
-          <!-- State 2: Connected / Drag & Drop -->
-          <div id="desktop-transfer-state" class="transfer-container hidden">
-            <div class="connection-status-success">
-              <i data-lucide="check-circle" class="text-success-icon"></i>
-              <div>
-                <h4>Tersambung ke iPhone!</h4>
-                <p class="subtitle">Anda dapat mulai mengirim lagu sekarang.</p>
-              </div>
-              <button id="disconnect-btn" class="btn-danger btn-sm">Putuskan</button>
-            </div>
-
-            <!-- Drag & Drop Zone -->
-            <div id="drop-zone" class="drag-drop-area">
-              <i data-lucide="upload-cloud" class="upload-cloud-icon"></i>
-              <h3>Seret File Musik ke Sini</h3>
-              <p class="subtitle">Mendukung MP3, WAV, M4A, FLAC, dll.</p>
-              <p class="or-divider">atau</p>
-              <button class="btn-secondary" id="browse-files-btn">Pilih File Lagu</button>
-              <input type="file" id="desktop-file-input" multiple accept="audio/*" class="hidden">
-            </div>
-
-            <!-- Upload Queue List -->
-            <div class="upload-queue-container">
-              <div class="queue-header-row">
-                <h3>Daftar Transfer</h3>
-                <span id="queue-summary" class="queue-summary"></span>
-              </div>
-              <div id="upload-queue-list" class="upload-queue-list">
-                <div class="queue-empty-state">
-                  Seret file lagu ke area di atas untuk mulai transfer.
-                </div>
+              <div class="progress-bar-bg">
+                <div id="pc-progress-fill" class="progress-bar-fill" style="width:0%"></div>
               </div>
             </div>
           </div>
-
-        </main>
-      </div>
-    </div>
-
-  </div>
-
-  <!-- ==================================================== -->
-  <!-- MODAL DIALOGS                                        -->
-  <!-- ==================================================== -->
-
-  <!-- Modal 1: WiFi Transfer Code Display (iPhone) -->
-  <div id="modal-wifi-transfer" class="modal-overlay hidden">
-    <div class="modal-card glass">
-      <div class="modal-header">
-        <h2>Wi-Fi Transfer</h2>
-        <button id="close-wifi-modal" class="modal-close-btn">&times;</button>
-      </div>
-      <div class="modal-body text-center">
-        <i data-lucide="wifi" class="modal-icon text-accent wifi-pulse"></i>
-        <p>Buka website ini di laptop Anda dan klik <strong>Hubungkan ke iPhone</strong>.</p>
-        <p class="subtitle">Pastikan kedua perangkat terhubung ke Wi-Fi yang sama.</p>
-        
-        <div class="pairing-code-display">
-          <span id="wifi-pairing-code">------</span>
-        </div>
-
-        <div id="wifi-status-info" class="wifi-status">
-          <span class="status-dot dot-waiting"></span> Menunggu sambungan dari laptop...
-        </div>
-
-        <!-- Rich per-song receiver progress panel -->
-        <div id="receiver-progress-container" class="receiver-progress hidden">
-          <div class="receiver-song-card">
-            <div class="receiver-song-art" id="receiver-song-art">
-              <i data-lucide="music" style="width:28px;height:28px;color:var(--primary-color);"></i>
-            </div>
-            <div class="receiver-song-info">
-              <p id="transferring-filename" class="receiver-song-name">Mengunduh lagu...</p>
-              <p id="receiver-size-text" class="receiver-song-size">0 MB / 0 MB</p>
-            </div>
-            <span id="receiver-progress-percentage" class="receiver-pct">0%</span>
-          </div>
-          <div class="progress-bar-bg" style="margin-top:10px;">
-            <div id="receiver-progress-fill" class="progress-bar-fill"></div>
-          </div>
-        </div>
-
-        <!-- Received songs list -->
-        <div id="receiver-done-list" class="receiver-done-list hidden">
-          <p class="subtitle" style="margin-bottom:8px;">✅ Lagu Tersimpan:</p>
-          <div id="receiver-done-items"></div>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Modal 2: Sleep Timer Selector -->
-  <div id="modal-sleep-timer" class="modal-overlay hidden">
-    <div class="modal-card glass">
-      <div class="modal-header">
-        <h2>Timer Tidur</h2>
-        <button id="close-sleep-modal" class="modal-close-btn">&times;</button>
-      </div>
-      <div class="modal-body">
-        <p class="subtitle text-center">Hentikan musik secara otomatis setelah waktu yang ditentukan.</p>
-        <div class="sleep-options-list">
-          <button class="sleep-option" data-minutes="0">Matikan Timer</button>
-          <button class="sleep-option" data-minutes="15">15 Menit</button>
-          <button class="sleep-option" data-minutes="30">30 Menit</button>
-          <button class="sleep-option" data-minutes="45">45 Menit</button>
-          <button class="sleep-option" data-minutes="60">60 Menit</button>
-          <button class="sleep-option" data-minutes="custom">Kustom Menit</button>
-        </div>
-        <div id="custom-sleep-input-wrap" class="custom-sleep-input hidden">
-          <input type="number" id="custom-sleep-minutes" min="1" max="1440" placeholder="Menit (1 - 1440)">
-          <button id="apply-custom-sleep" class="btn-primary">Terapkan</button>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal 3: Edit Metadata (iPhone) -->
-  <div id="modal-edit-metadata" class="modal-overlay hidden">
-    <div class="modal-card glass">
-      <div class="modal-header">
-        <h2>Edit Info Lagu</h2>
-        <button id="close-edit-modal" class="modal-close-btn">&times;</button>
-      </div>
-      <div class="modal-body scrollable-modal-body">
-        <form id="metadata-form" onsubmit="return false;">
-          <input type="hidden" id="edit-song-id">
-          
-          <div class="edit-cover-wrap text-center">
-            <img src="" alt="Album Art Preview" id="edit-cover-preview" class="edit-cover-preview-img">
-            <button type="button" id="upload-custom-cover-btn" class="btn-secondary btn-sm">Ganti Cover</button>
-            <input type="file" id="custom-cover-input" accept="image/*" class="hidden">
-          </div>
-
-          <div class="form-group">
-            <label for="edit-title">Judul Lagu</label>
-            <input type="text" id="edit-title" required placeholder="Judul Lagu">
-          </div>
-
-          <div class="form-group">
-            <label for="edit-artist">Artis</label>
-            <input type="text" id="edit-artist" required placeholder="Nama Penyanyi / Band">
-          </div>
-
-          <div class="form-group">
-            <label for="edit-album">Album</label>
-            <input type="text" id="edit-album" placeholder="Nama Album">
-          </div>
-
-
-
-          <button type="button" id="save-metadata-btn" class="btn-primary btn-block">Simpan Perubahan</button>
-        </form>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal 4: Create Playlist -->
-  <div id="modal-create-playlist" class="modal-overlay hidden">
-    <div class="modal-card glass">
-      <div class="modal-header">
-        <h2>Buat Playlist Baru</h2>
-        <button id="close-playlist-modal-btn" class="modal-close-btn">&times;</button>
-      </div>
-      <div class="modal-body scrollable-modal-body" style="padding: 15px; max-height: 480px; overflow-y: auto;">
-        <div class="form-group">
-          <label for="new-playlist-name">Nama Playlist</label>
-          <input type="text" id="new-playlist-name" placeholder="Misal: Santai, Olahraga, Belajar" required>
-        </div>
-        <div class="form-group" style="margin-top: 15px;">
-          <label style="margin-bottom: 8px; display: block; font-weight: 500;">Pilih Lagu</label>
-          <div id="new-playlist-songs-selection" style="max-height: 180px; overflow-y: auto; display: flex; flex-direction: column; gap: 8px; border: 1px solid var(--glass-border); padding: 10px; border-radius: 12px; background: rgba(0,0,0,0.25);">
-            <!-- Checkbox lagu diisi dinamis -->
-          </div>
-        </div>
-        <div class="form-group" style="margin-top: 15px;">
-          <label for="new-playlist-cover-song" style="margin-bottom: 8px; display: block; font-weight: 500;">Pilih Foto Cover dari Lagu</label>
-          <select id="new-playlist-cover-song" style="width: 100%; padding: 12px; border-radius: 12px; background: rgba(28,28,30,0.95); border: 1px solid var(--glass-border); color: #fff; outline: none; font-size: 14px;">
-            <option value="">(Gunakan Cover Pertama)</option>
-          </select>
-        </div>
-        <button id="save-new-playlist-btn" class="btn-primary btn-block" style="margin-top: 20px;">Buat Playlist</button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Modal 5: Add Songs to Playlist -->
-  <div id="modal-add-songs-to-playlist" class="modal-overlay hidden">
-    <div class="modal-card glass">
-      <div class="modal-header">
-        <h2>Pilih Lagu</h2>
-        <button id="close-add-songs-modal-btn" class="modal-close-btn">&times;</button>
-      </div>
-      <div class="modal-body scrollable-modal-body" style="padding: 15px;">
-        <div id="add-songs-selection-list" style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px;">
-          <!-- Checkbox song items will go here -->
-        </div>
-        <button id="save-playlist-songs-btn" class="btn-primary btn-block">Tambahkan Lagu Terpilih</button>
-      </div>
-    </div>
-  <!-- Modal 6: Equalizer & Sound Profiles Selector -->
-  <div id="modal-equalizer" class="modal-overlay hidden">
-    <div class="modal-card glass eq-modal-card">
-      <div class="modal-header">
-        <h2>Equalizer & Profil Suara</h2>
-        <button id="close-eq-modal" class="modal-close-btn">&times;</button>
-      </div>
-      <div class="modal-body text-center">
-        <p class="subtitle" style="margin-bottom:12px;">Pilih Preset Suara:</p>
-        <div class="eq-presets-grid">
-          <button class="eq-preset-btn active" data-preset="flat">Flat</button>
-          <button class="eq-preset-btn" data-preset="bassBoost">Bass Boost</button>
-          <button class="eq-preset-btn" data-preset="vocalBoost">Vocal Boost</button>
-          <button class="eq-preset-btn" data-preset="rock">Rock</button>
-          <button class="eq-preset-btn" data-preset="pop">Pop</button>
-          <button class="eq-preset-btn" data-preset="jazz">Jazz</button>
-          <button class="eq-preset-btn" data-preset="electronic">Electronic</button>
-        </div>
-
-        <p class="subtitle" style="margin-top:16px;margin-bottom:12px;">Atur Frekuensi (5-Band):</p>
-        <!-- 5-Band Vertical Equalizer Sliders -->
-        <div class="eq-sliders-container">
-          <div class="eq-band-col">
-            <span class="eq-gain-val" id="eq-gain-0">+0 dB</span>
-            <div class="eq-slider-wrapper">
-              <input type="range" class="eq-slider" id="eq-band-0" min="-12" max="12" value="0" step="1">
-            </div>
-            <span class="eq-freq-lbl">60Hz</span>
-          </div>
-
-          <div class="eq-band-col">
-            <span class="eq-gain-val" id="eq-gain-1">+0 dB</span>
-            <div class="eq-slider-wrapper">
-              <input type="range" class="eq-slider" id="eq-band-1" min="-12" max="12" value="0" step="1">
-            </div>
-            <span class="eq-freq-lbl">230Hz</span>
-          </div>
-
-          <div class="eq-band-col">
-            <span class="eq-gain-val" id="eq-gain-2">+0 dB</span>
-            <div class="eq-slider-wrapper">
-              <input type="range" class="eq-slider" id="eq-band-2" min="-12" max="12" value="0" step="1">
-            </div>
-            <span class="eq-freq-lbl">910Hz</span>
-          </div>
-
-          <div class="eq-band-col">
-            <span class="eq-gain-val" id="eq-gain-3">+0 dB</span>
-            <div class="eq-slider-wrapper">
-              <input type="range" class="eq-slider" id="eq-band-3" min="-12" max="12" value="0" step="1">
-            </div>
-            <span class="eq-freq-lbl">3.6kHz</span>
-          </div>
-
-          <div class="eq-band-col">
-            <span class="eq-gain-val" id="eq-gain-4">+0 dB</span>
-            <div class="eq-slider-wrapper">
-              <input type="range" class="eq-slider" id="eq-band-4" min="-12" max="12" value="0" step="1">
-            </div>
-            <span class="eq-freq-lbl">14kHz</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Guaranteed Synchronous Splash Dismiss Script -->
-  <script>
-    (function() {
-      function dismissSplash() {
-        var splash = document.getElementById('splash-screen');
-        if (!splash) return;
-        splash.style.opacity = '0';
-        setTimeout(function() {
-          if (splash && splash.parentNode) {
-            splash.parentNode.removeChild(splash);
-          }
-        }, 250);
-      }
-
-      if (document.readyState === 'complete' || document.readyState === 'interactive') {
-        setTimeout(dismissSplash, 100);
-      } else {
-        window.addEventListener('DOMContentLoaded', function() { setTimeout(dismissSplash, 100); });
-        window.addEventListener('load', function() { setTimeout(dismissSplash, 100); });
-      }
-    })();
   <!-- Local Vendor Scripts (100% Offline Support) -->
   <script src="vendor/lucide.min.js"></script>
   <script src="vendor/jsmediatags.min.js"></script>

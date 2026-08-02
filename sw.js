@@ -4,7 +4,7 @@
  * Guarantees 100% offline app shell loading and asset caching.
  */
 
-const CACHE_NAME = 'anywhere-music-player-v20';
+const CACHE_NAME = 'anywhere-music-player-v21';
 const ESSENTIAL_ASSETS = [
   './',
   './index.html',
@@ -18,7 +18,16 @@ const ESSENTIAL_ASSETS = [
   './placeholder.png',
   './icons/apple-touch-icon.png',
   './icons/icon-192.png',
-  './icons/icon-512.png'
+  './icons/icon-512.png',
+  './icons/splash/splash-1290x2796.png',
+  './icons/splash/splash-1179x2556.png',
+  './icons/splash/splash-1284x2778.png',
+  './icons/splash/splash-1170x2532.png',
+  './icons/splash/splash-1242x2688.png',
+  './icons/splash/splash-828x1792.png',
+  './icons/splash/splash-1125x2436.png',
+  './icons/splash/splash-1242x2208.png',
+  './icons/splash/splash-750x1334.png'
 ];
 
 // Install Service Worker and cache essential app shell
@@ -27,7 +36,6 @@ self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(async (cache) => {
       console.log('[SW] Caching Essential App Shell');
-      // Use Promise.allSettled so individual missing assets never block SW installation
       return Promise.allSettled(
         ESSENTIAL_ASSETS.map(asset => cache.add(asset).catch(e => console.warn('[SW] Asset cache warning:', asset, e)))
       );
